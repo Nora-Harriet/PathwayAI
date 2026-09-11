@@ -1,76 +1,3 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
-import { useQuery } from "@tanstack/react-query";
-import { useMemo } from "react";
-import { Compass, FileText, Lightbulb, PenLine, Sparkles, Target } from "lucide-react";
-
-import { getDashboard } from "@/lib/pathway";
-import { Button } from "@/components/ui/button";
-
-export const Route = createFileRoute("/_authenticated/home")({
-  head: () => ({
-    meta: [
-      { title: "Your progress — Pathway" },
-      {
-        name: "description",
-        content:
-          "Track your Pathway progress: profile, career matches, CV feedback and cover letters, all saved to your account.",
-      },
-      { property: "og:title", content: "Your progress — Pathway" },
-      {
-        property: "og:description",
-        content: "A simple dashboard of everything you've built in Pathway so far.",
-      },
-    ],
-  }),
-  component: HomePage,
-});
-
-const TIPS = [
-  "Numbers beat adjectives. 'Trained 25 volunteers' says more than 'excellent trainer'.",
-  "Volunteering with an NGO counts as real experience — list it like any other role.",
-  "Send a short thank-you note within 24 hours of an interview.",
-  "Keep a brag list: every win, number and compliment goes in it as it happens.",
-  "Rewrite your CV summary for each role using words from the advert itself.",
-  "One thoughtful LinkedIn comment a week beats a hundred cold applications.",
-];
-
-const ACTIONS = [
-  {
-    label: "Build your profile",
-    description:
-      "Save your education, skills and interests once and reuse them everywhere.",
-    to: "/advisor" as const,
-    icon: PenLine,
-  },
-  {
-    label: "Get a career match",
-    description:
-      "AI-matched career paths with the skills to build for each one.",
-    to: "/advisor" as const,
-    icon: Compass,
-  },
-  {
-    label: "Review your CV",
-    description:
-      "Upload or paste your CV and get specific, honest feedback.",
-    to: "/cv-and-letters" as const,
-    icon: FileText,
-  },
-  {
-    label: "Draft a cover letter",
-    description:
-      "A first draft for any role, ready to personalise and download.",
-    to: "/cv-and-letters" as const,
-    icon: Sparkles,
-  },
-  {
-    label: "Set a goal",
-    description: "Set a target and track your progress.",
-    to: "/goal-setter" as const,
-    icon: Target,
-  },
-];
-
 function HomePage() {
   const { data, isLoading } = useQuery({
     queryKey: ["dashboard"],
@@ -80,74 +7,35 @@ function HomePage() {
   const tip = useMemo(() => TIPS[new Date().getDate() % TIPS.length], []);
 
   return (
-    <main className="min-h-screen bg-[#F3ECFA]">
-      <div className="mx-auto max-w-7xl px-4 pb-10 sm:px-6 lg:px-8">
+    <main
+      className="relative min-h-screen bg-[#F3ECFA] bg-cover bg-center bg-no-repeat"
+      style={{ backgroundImage: "url('/hero-home.png')" }}
+    >
+      {/* Soft lavender veil over the entire background image */}
+      <div className="pointer-events-none absolute inset-0 bg-[#F3ECFA]/45" />
 
-        {/* HERO + INTRO
-            This is NOT a card or separate image box.
-            The entire Home page shares the same #F3ECFA background. */}
-        <div className="relative">
+      {/* Page content */}
+      <div className="relative mx-auto max-w-7xl px-4 pb-10 sm:px-6 lg:px-8">
+        {/* HOME + greeting */}
+        <div className="pt-8 sm:pt-10">
+          <p className="text-[11px] font-semibold tracking-[0.14em] text-primary uppercase">
+            Home
+          </p>
 
-          {/* Hero image */}
-          <div className="relative -mx-4 h-56 overflow-hidden sm:-mx-6 sm:h-72 lg:-mx-8 lg:h-80">
-            <img
-              src="/hero-home.png"
-              alt=""
-              aria-hidden="true"
-              className="absolute inset-0 h-full w-full object-cover"
-            />
+          <h1 className="mt-1 text-2xl font-semibold sm:text-3xl">
+            {data?.profile?.fullName
+              ? `Hello, ${data.profile.fullName}`
+              : "Your progress"}
+          </h1>
 
-            {/* Soft bottom fade into the page background */}
-            <div
-              className="pointer-events-none absolute inset-x-0 bottom-0 h-40"
-              style={{
-                background:
-                  "linear-gradient(to bottom, transparent 0%, rgba(243,236,250,0.15) 30%, rgba(243,236,250,0.65) 65%, #F3ECFA 100%)",
-              }}
-            />
+          <p className="mt-3 font-display text-3xl font-semibold sm:text-4xl">
+            Your next step, mapped
+          </p>
 
-            {/* Soft side fades — no hard rectangular image edge */}
-            <div
-              className="pointer-events-none absolute inset-y-0 left-0 w-24"
-              style={{
-                background:
-                  "linear-gradient(to right, #F3ECFA 0%, rgba(243,236,250,0.45) 35%, transparent 100%)",
-              }}
-            />
-
-            <div
-              className="pointer-events-none absolute inset-y-0 right-0 w-24"
-              style={{
-                background:
-                  "linear-gradient(to left, #F3ECFA 0%, rgba(243,236,250,0.45) 35%, transparent 100%)",
-              }}
-            />
-          </div>
-
-          {/* Existing HOME + greeting.
-              Logic and styling kept unchanged. */}
-          <div className="relative -mt-2">
-            <p className="text-[11px] font-semibold tracking-[0.14em] text-primary uppercase">
-              Home
-            </p>
-
-            <h1 className="mt-1 text-2xl font-semibold sm:text-3xl">
-              {data?.profile?.fullName
-                ? `Hello, ${data.profile.fullName}`
-                : "Your progress"}
-            </h1>
-
-            {/* New headline */}
-            <p className="mt-3 font-display text-3xl font-semibold sm:text-4xl">
-              Your next step, mapped
-            </p>
-
-            {/* New supporting text */}
-            <p className="mt-2 max-w-2xl text-sm text-muted-foreground">
-              One place to find your fit, sharpen your CV, and take the next
-              step with confidence.
-            </p>
-          </div>
+          <p className="mt-2 max-w-2xl text-sm text-muted-foreground">
+            One place to find your fit, sharpen your CV, and take the next
+            step with confidence.
+          </p>
         </div>
 
         {/* WHAT YOU CAN DO */}
