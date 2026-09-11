@@ -71,34 +71,59 @@ const ACTIONS = [
 ];
 
 function HomePage() {
-  const { data, isLoading } = useQuery({ queryKey: ["dashboard"], queryFn: getDashboard });
+  const { data, isLoading } = useQuery({
+    queryKey: ["dashboard"],
+    queryFn: getDashboard,
+  });
 
   const tip = useMemo(() => TIPS[new Date().getDate() % TIPS.length], []);
 
   return (
     <>
-      <section className="overflow-hidden rounded-3xl bg-[#F3ECFA]">
-        <div className="relative">
+      {/* Hero + greeting area */}
+      <div className="relative -mx-0 bg-[#F3ECFA]">
+        {/* Image is blended directly into the lavender background.
+            There is intentionally no card, border, radius, or image container. */}
+        <div className="relative h-56 overflow-hidden sm:h-72 lg:h-80">
           <img
             src={HERO_PLACEHOLDER}
             alt="Hero placeholder"
-            className="h-48 w-full object-cover sm:h-64 lg:h-80"
+            className="absolute inset-0 h-full w-full object-cover"
+            style={{
+              maskImage:
+                "linear-gradient(to bottom, transparent 0%, black 12%, black 58%, transparent 100%), linear-gradient(to right, transparent 0%, black 10%, black 90%, transparent 100%)",
+              WebkitMaskImage:
+                "linear-gradient(to bottom, transparent 0%, black 12%, black 58%, transparent 100%), linear-gradient(to right, transparent 0%, black 10%, black 90%, transparent 100%)",
+              maskComposite: "intersect",
+              WebkitMaskComposite: "source-in",
+            }}
           />
-          <div className="pointer-events-none absolute inset-x-0 bottom-0 h-24 bg-gradient-to-b from-transparent to-[#F3ECFA]" />
-        </div>
-      </section>
 
-      <div className="mt-6">
-        <p className="text-[11px] font-semibold tracking-[0.14em] text-primary uppercase">Home</p>
-        <h1 className="mt-1 text-2xl font-semibold sm:text-3xl">
-          {data?.profile?.fullName ? `Hello, ${data.profile.fullName}` : "Your progress"}
-        </h1>
-        <p className="mt-3 font-display text-3xl font-semibold sm:text-4xl">
-          Your next step, mapped
-        </p>
-        <p className="mt-2 max-w-2xl text-sm text-muted-foreground">
-          One place to find your fit, sharpen your CV, and take the next step with confidence.
-        </p>
+          {/* Additional soft fade into the exact page background colour */}
+          <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-[#F3ECFA]/45 via-transparent to-[#F3ECFA]" />
+          <div className="pointer-events-none absolute inset-0 bg-gradient-to-r from-[#F3ECFA]/70 via-transparent to-[#F3ECFA]/70" />
+        </div>
+
+        <div className="relative -mt-8 pb-2">
+          <p className="text-[11px] font-semibold tracking-[0.14em] text-primary uppercase">
+            Home
+          </p>
+
+          <h1 className="mt-1 text-2xl font-semibold sm:text-3xl">
+            {data?.profile?.fullName
+              ? `Hello, ${data.profile.fullName}`
+              : "Your progress"}
+          </h1>
+
+          <p className="mt-3 font-display text-3xl font-semibold sm:text-4xl">
+            Your next step, mapped
+          </p>
+
+          <p className="mt-2 max-w-2xl text-sm text-muted-foreground">
+            One place to find your fit, sharpen your CV, and take the next step
+            with confidence.
+          </p>
+        </div>
       </div>
 
       <section className="card-surface mt-6 p-6">
@@ -117,8 +142,12 @@ function HomePage() {
               <span className="grid size-9 shrink-0 place-items-center rounded-lg bg-accent text-accent-foreground">
                 <action.icon className="size-4" />
               </span>
+
               <span className="min-w-0">
-                <span className="block truncate text-sm font-medium">{action.label}</span>
+                <span className="block truncate text-sm font-medium">
+                  {action.label}
+                </span>
+
                 <span className="mt-1 block text-xs text-muted-foreground">
                   {action.description}
                 </span>
@@ -131,6 +160,7 @@ function HomePage() {
       <div className="mt-4 grid gap-4 lg:grid-cols-3">
         <section className="card-surface p-6 lg:col-span-2">
           <h2 className="text-lg font-semibold">Recent activity</h2>
+
           {isLoading ? (
             <p className="mt-3 text-sm text-muted-foreground">Loading…</p>
           ) : (data?.matches.length ?? 0) +
@@ -139,8 +169,10 @@ function HomePage() {
             0 ? (
             <div className="mt-3">
               <p className="text-sm text-muted-foreground">
-                Nothing saved yet. Start with a career match — it takes about a minute.
+                Nothing saved yet. Start with a career match — it takes about a
+                minute.
               </p>
+
               <Button asChild className="mt-4">
                 <Link to="/advisor">Get my career match</Link>
               </Button>
@@ -150,8 +182,14 @@ function HomePage() {
               {[...(data?.matches ?? []), ...(data?.reviews ?? []), ...(data?.letters ?? [])]
                 .sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime())
                 .map((item) => (
-                  <li key={item.id} className="rounded-xl border border-border bg-muted/40 p-4">
-                    <p className="truncate text-sm font-medium">{item.label}</p>
+                  <li
+                    key={item.id}
+                    className="rounded-xl border border-border bg-muted/40 p-4"
+                  >
+                    <p className="truncate text-sm font-medium">
+                      {item.label}
+                    </p>
+
                     <p className="mt-1 text-xs text-muted-foreground">
                       {item.createdAt.toLocaleDateString()}
                     </p>
@@ -165,7 +203,9 @@ function HomePage() {
           <span className="grid size-10 place-items-center rounded-xl bg-accent text-accent-foreground">
             <Lightbulb className="size-5" />
           </span>
+
           <h2 className="mt-4 text-lg font-semibold">Tip of the day</h2>
+
           <p className="mt-2 text-sm text-muted-foreground">{tip}</p>
         </section>
       </div>
