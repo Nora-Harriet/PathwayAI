@@ -1,13 +1,12 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
 import { useMemo } from "react";
-import { Compass, FileText, Lightbulb, PenLine, Sparkles } from "lucide-react";
+import { Compass, FileText, Lightbulb, PenLine, Sparkles, Target } from "lucide-react";
 
 import { getDashboard } from "@/lib/pathway";
-import { PageHeader } from "@/components/PageHeader";
 import { Button } from "@/components/ui/button";
 
-export const Route = createFileRoute("/_autenticated/home")({
+export const Route = createFileRoute("/_authenticated/home")({
   head: () => ({
     meta: [
       { title: "Your progress — Pathway" },
@@ -25,6 +24,9 @@ export const Route = createFileRoute("/_autenticated/home")({
   }),
   component: HomePage,
 });
+
+const HERO_PLACEHOLDER =
+  "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1200 400'%3E%3Crect width='1200' height='400' fill='%23E8DDF5'/%3E%3Ccircle cx='900' cy='120' r='80' fill='%23F3ECFA' opacity='0.6'/%3E%3Crect x='200' y='220' width='300' height='120' rx='20' fill='%23F3ECFA' opacity='0.5'/%3E%3Cpath d='M580 160 L600 120 L620 160 L660 180 L620 200 L600 240 L580 200 L540 180 Z' fill='white' opacity='0.8'/%3E%3Ctext x='600' y='360' font-family='sans-serif' font-size='20' fill='%239C7BB8' text-anchor='middle'%3EHero image placeholder%3C/text%3E%3C/svg%3E";
 
 const TIPS = [
   "Numbers beat adjectives. 'Trained 25 volunteers' says more than 'excellent trainer'.",
@@ -60,6 +62,12 @@ const ACTIONS = [
     to: "/cv-and-letters" as const,
     icon: Sparkles,
   },
+  {
+    label: "Set a goal",
+    description: "Set a target and track your progress.",
+    to: "/goal-setter" as const,
+    icon: Target,
+  },
 ];
 
 function HomePage() {
@@ -69,19 +77,37 @@ function HomePage() {
 
   return (
     <>
-      <PageHeader
-        eyebrow="Home"
-        title={data?.profile?.fullName ? `Hello, ${data.profile.fullName}` : "Your progress"}
-        description="A quick overview of how far you've got with Pathway, and what's worth doing next."
-      />
+      <section className="overflow-hidden rounded-3xl bg-[#F3ECFA]">
+        <div className="relative">
+          <img
+            src={HERO_PLACEHOLDER}
+            alt="Hero placeholder"
+            className="h-48 w-full object-cover sm:h-64 lg:h-80"
+          />
+          <div className="pointer-events-none absolute inset-x-0 bottom-0 h-24 bg-gradient-to-b from-transparent to-[#F3ECFA]" />
+        </div>
+      </section>
 
-      <section className="card-surface p-6">
+      <div className="mt-6">
+        <p className="text-[11px] font-semibold tracking-[0.14em] text-primary uppercase">Home</p>
+        <h1 className="mt-1 text-2xl font-semibold sm:text-3xl">
+          {data?.profile?.fullName ? `Hello, ${data.profile.fullName}` : "Your progress"}
+        </h1>
+        <p className="mt-3 font-display text-3xl font-semibold sm:text-4xl">
+          Your next step, mapped
+        </p>
+        <p className="mt-2 max-w-2xl text-sm text-muted-foreground">
+          One place to find your fit, sharpen your CV, and take the next step with confidence.
+        </p>
+      </div>
+
+      <section className="card-surface mt-6 p-6">
         <h2 className="text-lg font-semibold">What you can do here</h2>
         <p className="mt-1 text-sm text-muted-foreground">
           Jump straight into any of the tools below.
         </p>
 
-        <div className="mt-6 grid gap-3 sm:grid-cols-2">
+        <div className="mt-6 grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
           {ACTIONS.map((action) => (
             <Link
               key={action.label}
@@ -101,7 +127,6 @@ function HomePage() {
           ))}
         </div>
       </section>
-
 
       <div className="mt-4 grid gap-4 lg:grid-cols-3">
         <section className="card-surface p-6 lg:col-span-2">
