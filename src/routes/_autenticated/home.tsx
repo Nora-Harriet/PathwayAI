@@ -83,7 +83,7 @@ function HomePage() {
     <main className="min-h-screen bg-[#F3ECFA]">
 
       {/* FULL-WIDTH HERO */}
-      <div className="relative -mx-4 sm:-mx-6 lg:-mx-8">
+      <div className="relative left-1/2 right-1/2 -mx-[50vw] w-screen">
         <div className="relative h-56 overflow-hidden sm:h-72 lg:h-80">
           <img
             src="/hero-home.png"
