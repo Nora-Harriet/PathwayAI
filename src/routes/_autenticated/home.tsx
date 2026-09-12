@@ -37,25 +37,29 @@ const TIPS = [
 const ACTIONS = [
   {
     label: "Build your profile",
-    description: "Save your education, skills and interests once and reuse them everywhere.",
+    description:
+      "Save your education, skills and interests once and reuse them everywhere.",
     to: "/advisor" as const,
     icon: PenLine,
   },
   {
     label: "Get a career match",
-    description: "AI-matched career paths with the skills to build for each one.",
+    description:
+      "AI-matched career paths with the skills to build for each one.",
     to: "/advisor" as const,
     icon: Compass,
   },
   {
     label: "Review your CV",
-    description: "Upload or paste your CV and get specific, honest feedback.",
+    description:
+      "Upload or paste your CV and get specific, honest feedback.",
     to: "/cv-and-letters" as const,
     icon: FileText,
   },
   {
     label: "Draft a cover letter",
-    description: "A first draft for any role, ready to personalise and download.",
+    description:
+      "A first draft for any role, ready to personalise and download.",
     to: "/cv-and-letters" as const,
     icon: Sparkles,
   },
@@ -76,38 +80,50 @@ function HomePage() {
   const tip = useMemo(() => TIPS[new Date().getDate() % TIPS.length], []);
 
   return (
-    <div className="relative -mx-4 -my-6 min-h-[calc(100vh-64px)] bg-[#F3ECFA] sm:-mx-6 lg:-my-10 lg:min-h-screen">
-      {/* Full content-area background image */}
-      <img
-        src="/hero-home.png"
-        alt=""
-        aria-hidden="true"
-        className="absolute left-1/2 top-0 h-full w-screen -translate-x-1/2 object-cover object-top lg:w-[calc(100vw-16rem)]"
-      />
+    <main className="min-h-screen bg-[#F3ECFA]">
 
-      {/* Soft readability overlay */}
-      <div className="pointer-events-none absolute inset-0 bg-[#F3ECFA]/25" />
+      {/* FULL-WIDTH HERO */}
+      <div className="relative -mx-4 sm:-mx-6 lg:-mx-8">
+        <div className="relative h-56 overflow-hidden sm:h-72 lg:h-80">
+          <img
+            src="/hero-home.png"
+            alt=""
+            aria-hidden="true"
+            className="absolute inset-0 h-full w-full object-cover"
+          />
 
-      {/* Side fades */}
-      <div
-        className="pointer-events-none absolute inset-y-0 left-0 w-24"
-        style={{
-          background:
-            "linear-gradient(to right, #F3ECFA 0%, rgba(243,236,250,0.45) 35%, transparent 100%)",
-        }}
-      />
+          {/* Fade into the page's #F3ECFA background */}
+          <div
+            className="pointer-events-none absolute inset-x-0 bottom-0 h-40"
+            style={{
+              background:
+                "linear-gradient(to bottom, transparent 0%, rgba(243,236,250,0.08) 25%, rgba(243,236,250,0.55) 65%, #F3ECFA 100%)",
+            }}
+          />
 
-      <div
-        className="pointer-events-none absolute inset-y-0 right-0 w-24"
-        style={{
-          background:
-            "linear-gradient(to left, #F3ECFA 0%, rgba(243,236,250,0.45) 35%, transparent 100%)",
-        }}
-      />
+          {/* Soft side blending */}
+          <div
+            className="pointer-events-none absolute inset-y-0 left-0 w-16"
+            style={{
+              background:
+                "linear-gradient(to right, rgba(243,236,250,0.35), transparent)",
+            }}
+          />
 
-      {/* Content */}
-      <div className="relative px-4 py-6 pb-10 sm:px-6 lg:py-10">
-        <div className="relative">
+          <div
+            className="pointer-events-none absolute inset-y-0 right-0 w-16"
+            style={{
+              background:
+                "linear-gradient(to left, rgba(243,236,250,0.35), transparent)",
+            }}
+          />
+        </div>
+      </div>
+
+      {/* CONTENT — ORIGINAL WIDTH/ALIGNMENT */}
+      <div className="mx-auto max-w-7xl px-4 pb-10 sm:px-6 lg:px-8">
+
+        <div className="relative -mt-2">
           <p className="text-[11px] font-semibold tracking-[0.14em] text-primary uppercase">
             Home
           </p>
@@ -123,7 +139,8 @@ function HomePage() {
           </p>
 
           <p className="mt-2 max-w-2xl text-sm text-muted-foreground">
-            One place to find your fit, sharpen your CV, and take the next step with confidence.
+            One place to find your fit, sharpen your CV, and take the next
+            step with confidence.
           </p>
         </div>
 
@@ -173,7 +190,8 @@ function HomePage() {
               0 ? (
               <div className="mt-3">
                 <p className="text-sm text-muted-foreground">
-                  Nothing saved yet. Start with a career match — it takes about a minute.
+                  Nothing saved yet. Start with a career match — it takes
+                  about a minute.
                 </p>
 
                 <Button asChild className="mt-4">
@@ -224,6 +242,6 @@ function HomePage() {
           </section>
         </div>
       </div>
-    </div>
+    </main>
   );
 }
