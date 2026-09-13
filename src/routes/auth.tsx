@@ -3,8 +3,6 @@ import { useEffect, useState } from "react";
 import { Sparkles, Eye, EyeOff } from "lucide-react";
 import { toast } from "sonner";
 
-import graduationBg from "@/assets/graduation-bg.png.asset.json";
-
 import {
   createUserWithEmailAndPassword,
   onAuthStateChanged,
@@ -130,32 +128,16 @@ function AuthPage() {
   }
 
   return (
-    <div
-      className="flex min-h-screen items-center justify-center px-4 py-10"
-      style={{
-        backgroundImage: `url(${graduationBg.url})`,
-        backgroundSize: "cover",
-        backgroundPosition: "center",
-        backgroundAttachment: "fixed",
-      }}
-    >
+    <div className="flex min-h-screen items-center justify-center bg-background px-4 py-10">
       <div className="w-full max-w-md">
-        <Link
-          to="/"
-          className="mb-6 flex items-center justify-center gap-2.5"
-        >
+        <Link to="/" className="mb-6 flex items-center justify-center gap-2.5">
           <span className="grid size-9 place-items-center rounded-xl bg-primary text-primary-foreground">
             <Sparkles className="size-4" />
           </span>
           <span className="font-display text-xl font-semibold">Pathway</span>
         </Link>
 
-        <div
-          className="card-surface p-6 sm:p-8"
-          style={{
-            background: "rgba(255, 255, 255, 0.5)",
-          }}
-        >
+        <div className="card-surface p-6 sm:p-8">
           <h1 className="text-2xl font-semibold">
             {mode === "signin" ? "Welcome back" : "Create your account"}
           </h1>
