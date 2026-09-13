@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { Sparkles, Eye, EyeOff } from "lucide-react";
 import { toast } from "sonner";
 
-import graduationBg from "@/assets/graduation-bg.png.asset.json";
+import graduationBg from "@/assets/graduation-bg.png";
 
 import {
   createUserWithEmailAndPassword,
