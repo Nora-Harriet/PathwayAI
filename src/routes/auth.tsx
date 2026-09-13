@@ -133,7 +133,7 @@ function AuthPage() {
     <div
       className="flex min-h-screen items-center justify-center px-4 py-10"
       style={{
-        backgroundImage: `url(${graduationBg.url})`,
+        backgroundImage: `url(${graduationBg})`,
         backgroundSize: "cover",
         backgroundPosition: "center",
         backgroundAttachment: "fixed",
