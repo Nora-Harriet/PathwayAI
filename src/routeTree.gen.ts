@@ -10,13 +10,13 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
-import { Route as AutenticatedRouteRouteImport } from './routes/_autenticated/route'
+import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
 import { Route as AuthRouteImport } from './routes/auth'
-import { Route as AutenticatedAdvisorRouteImport } from './routes/_autenticated/advisor'
-import { Route as AutenticatedCareerTipsRouteImport } from './routes/_autenticated/career-tips'
-import { Route as AutenticatedCvAndLettersRouteImport } from './routes/_autenticated/cv-and-letters'
-import { Route as AutenticatedGoalSetterRouteImport } from './routes/_autenticated/goal-setter'
-import { Route as AutenticatedHomeRouteImport } from './routes/_autenticated/home'
+import { Route as AuthenticatedAdvisorRouteImport } from './routes/_authenticated/advisor'
+import { Route as AuthenticatedCareerTipsRouteImport } from './routes/_authenticated/career-tips'
+import { Route as AuthenticatedCvAndLettersRouteImport } from './routes/_authenticated/cv-and-letters'
+import { Route as AuthenticatedGoalSetterRouteImport } from './routes/_authenticated/goal-setter'
+import { Route as AuthenticatedHomeRouteImport } from './routes/_authenticated/home'
 import { Route as ApiAiRouteImport } from './routes/api/ai'
 
 const IndexRoute = IndexRouteImport.update({
@@ -24,8 +24,8 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
-const AutenticatedRouteRoute = AutenticatedRouteRouteImport.update({
-  id: '/_autenticated',
+const AuthenticatedRouteRoute = AuthenticatedRouteRouteImport.update({
+  id: '/_authenticated',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AuthRoute = AuthRouteImport.update({
@@ -33,31 +33,31 @@ const AuthRoute = AuthRouteImport.update({
   path: '/auth',
   getParentRoute: () => rootRouteImport,
 } as any)
-const AutenticatedAdvisorRoute = AutenticatedAdvisorRouteImport.update({
+const AuthenticatedAdvisorRoute = AuthenticatedAdvisorRouteImport.update({
   id: '/advisor',
   path: '/advisor',
-  getParentRoute: () => AutenticatedRouteRoute,
+  getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
-const AutenticatedCareerTipsRoute = AutenticatedCareerTipsRouteImport.update({
+const AuthenticatedCareerTipsRoute = AuthenticatedCareerTipsRouteImport.update({
   id: '/career-tips',
   path: '/career-tips',
-  getParentRoute: () => AutenticatedRouteRoute,
+  getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
-const AutenticatedCvAndLettersRoute =
-  AutenticatedCvAndLettersRouteImport.update({
+const AuthenticatedCvAndLettersRoute =
+  AuthenticatedCvAndLettersRouteImport.update({
     id: '/cv-and-letters',
     path: '/cv-and-letters',
-    getParentRoute: () => AutenticatedRouteRoute,
+    getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
-const AutenticatedGoalSetterRoute = AutenticatedGoalSetterRouteImport.update({
+const AuthenticatedGoalSetterRoute = AuthenticatedGoalSetterRouteImport.update({
   id: '/goal-setter',
   path: '/goal-setter',
-  getParentRoute: () => AutenticatedRouteRoute,
+  getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
-const AutenticatedHomeRoute = AutenticatedHomeRouteImport.update({
+const AuthenticatedHomeRoute = AuthenticatedHomeRouteImport.update({
   id: '/home',
   path: '/home',
-  getParentRoute: () => AutenticatedRouteRoute,
+  getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
 const ApiAiRoute = ApiAiRouteImport.update({
   id: '/api/ai',
@@ -68,33 +68,33 @@ const ApiAiRoute = ApiAiRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
-  '/advisor': typeof AutenticatedAdvisorRoute
-  '/career-tips': typeof AutenticatedCareerTipsRoute
-  '/cv-and-letters': typeof AutenticatedCvAndLettersRoute
-  '/goal-setter': typeof AutenticatedGoalSetterRoute
-  '/home': typeof AutenticatedHomeRoute
+  '/advisor': typeof AuthenticatedAdvisorRoute
+  '/career-tips': typeof AuthenticatedCareerTipsRoute
+  '/cv-and-letters': typeof AuthenticatedCvAndLettersRoute
+  '/goal-setter': typeof AuthenticatedGoalSetterRoute
+  '/home': typeof AuthenticatedHomeRoute
   '/api/ai': typeof ApiAiRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
-  '/advisor': typeof AutenticatedAdvisorRoute
-  '/career-tips': typeof AutenticatedCareerTipsRoute
-  '/cv-and-letters': typeof AutenticatedCvAndLettersRoute
-  '/goal-setter': typeof AutenticatedGoalSetterRoute
-  '/home': typeof AutenticatedHomeRoute
+  '/advisor': typeof AuthenticatedAdvisorRoute
+  '/career-tips': typeof AuthenticatedCareerTipsRoute
+  '/cv-and-letters': typeof AuthenticatedCvAndLettersRoute
+  '/goal-setter': typeof AuthenticatedGoalSetterRoute
+  '/home': typeof AuthenticatedHomeRoute
   '/api/ai': typeof ApiAiRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
-  '/_autenticated': typeof AutenticatedRouteRouteWithChildren
+  '/_authenticated': typeof AuthenticatedRouteRouteWithChildren
   '/auth': typeof AuthRoute
-  '/_autenticated/advisor': typeof AutenticatedAdvisorRoute
-  '/_autenticated/career-tips': typeof AutenticatedCareerTipsRoute
-  '/_autenticated/cv-and-letters': typeof AutenticatedCvAndLettersRoute
-  '/_autenticated/goal-setter': typeof AutenticatedGoalSetterRoute
-  '/_autenticated/home': typeof AutenticatedHomeRoute
+  '/_authenticated/advisor': typeof AuthenticatedAdvisorRoute
+  '/_authenticated/career-tips': typeof AuthenticatedCareerTipsRoute
+  '/_authenticated/cv-and-letters': typeof AuthenticatedCvAndLettersRoute
+  '/_authenticated/goal-setter': typeof AuthenticatedGoalSetterRoute
+  '/_authenticated/home': typeof AuthenticatedHomeRoute
   '/api/ai': typeof ApiAiRoute
 }
 export interface FileRouteTypes {
@@ -121,19 +121,19 @@ export interface FileRouteTypes {
   id:
     | '__root__'
     | '/'
-    | '/_autenticated'
+    | '/_authenticated'
     | '/auth'
-    | '/_autenticated/advisor'
-    | '/_autenticated/career-tips'
-    | '/_autenticated/cv-and-letters'
-    | '/_autenticated/goal-setter'
-    | '/_autenticated/home'
+    | '/_authenticated/advisor'
+    | '/_authenticated/career-tips'
+    | '/_authenticated/cv-and-letters'
+    | '/_authenticated/goal-setter'
+    | '/_authenticated/home'
     | '/api/ai'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
-  AutenticatedRouteRoute: typeof AutenticatedRouteRouteWithChildren
+  AuthenticatedRouteRoute: typeof AuthenticatedRouteRouteWithChildren
   AuthRoute: typeof AuthRoute
   ApiAiRoute: typeof ApiAiRoute
 }
@@ -147,11 +147,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/_autenticated': {
-      id: '/_autenticated'
+    '/_authenticated': {
+      id: '/_authenticated'
       path: ''
       fullPath: '/'
-      preLoaderRoute: typeof AutenticatedRouteRouteImport
+      preLoaderRoute: typeof AuthenticatedRouteRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/auth': {
@@ -161,40 +161,40 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/_autenticated/advisor': {
-      id: '/_autenticated/advisor'
+    '/_authenticated/advisor': {
+      id: '/_authenticated/advisor'
       path: '/advisor'
       fullPath: '/advisor'
-      preLoaderRoute: typeof AutenticatedAdvisorRouteImport
-      parentRoute: typeof AutenticatedRouteRoute
+      preLoaderRoute: typeof AuthenticatedAdvisorRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
     }
-    '/_autenticated/career-tips': {
-      id: '/_autenticated/career-tips'
+    '/_authenticated/career-tips': {
+      id: '/_authenticated/career-tips'
       path: '/career-tips'
       fullPath: '/career-tips'
-      preLoaderRoute: typeof AutenticatedCareerTipsRouteImport
-      parentRoute: typeof AutenticatedRouteRoute
+      preLoaderRoute: typeof AuthenticatedCareerTipsRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
     }
-    '/_autenticated/cv-and-letters': {
-      id: '/_autenticated/cv-and-letters'
+    '/_authenticated/cv-and-letters': {
+      id: '/_authenticated/cv-and-letters'
       path: '/cv-and-letters'
       fullPath: '/cv-and-letters'
-      preLoaderRoute: typeof AutenticatedCvAndLettersRouteImport
-      parentRoute: typeof AutenticatedRouteRoute
+      preLoaderRoute: typeof AuthenticatedCvAndLettersRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
     }
-    '/_autenticated/goal-setter': {
-      id: '/_autenticated/goal-setter'
+    '/_authenticated/goal-setter': {
+      id: '/_authenticated/goal-setter'
       path: '/goal-setter'
       fullPath: '/goal-setter'
-      preLoaderRoute: typeof AutenticatedGoalSetterRouteImport
-      parentRoute: typeof AutenticatedRouteRoute
+      preLoaderRoute: typeof AuthenticatedGoalSetterRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
     }
-    '/_autenticated/home': {
-      id: '/_autenticated/home'
+    '/_authenticated/home': {
+      id: '/_authenticated/home'
       path: '/home'
       fullPath: '/home'
-      preLoaderRoute: typeof AutenticatedHomeRouteImport
-      parentRoute: typeof AutenticatedRouteRoute
+      preLoaderRoute: typeof AuthenticatedHomeRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
     }
     '/api/ai': {
       id: '/api/ai'
@@ -206,28 +206,28 @@ declare module '@tanstack/react-router' {
   }
 }
 
-interface AutenticatedRouteRouteChildren {
-  AutenticatedAdvisorRoute: typeof AutenticatedAdvisorRoute
-  AutenticatedCareerTipsRoute: typeof AutenticatedCareerTipsRoute
-  AutenticatedCvAndLettersRoute: typeof AutenticatedCvAndLettersRoute
-  AutenticatedGoalSetterRoute: typeof AutenticatedGoalSetterRoute
-  AutenticatedHomeRoute: typeof AutenticatedHomeRoute
+interface AuthenticatedRouteRouteChildren {
+  AuthenticatedAdvisorRoute: typeof AuthenticatedAdvisorRoute
+  AuthenticatedCareerTipsRoute: typeof AuthenticatedCareerTipsRoute
+  AuthenticatedCvAndLettersRoute: typeof AuthenticatedCvAndLettersRoute
+  AuthenticatedGoalSetterRoute: typeof AuthenticatedGoalSetterRoute
+  AuthenticatedHomeRoute: typeof AuthenticatedHomeRoute
 }
 
-const AutenticatedRouteRouteChildren: AutenticatedRouteRouteChildren = {
-  AutenticatedAdvisorRoute: AutenticatedAdvisorRoute,
-  AutenticatedCareerTipsRoute: AutenticatedCareerTipsRoute,
-  AutenticatedCvAndLettersRoute: AutenticatedCvAndLettersRoute,
-  AutenticatedGoalSetterRoute: AutenticatedGoalSetterRoute,
-  AutenticatedHomeRoute: AutenticatedHomeRoute,
+const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
+  AuthenticatedAdvisorRoute: AuthenticatedAdvisorRoute,
+  AuthenticatedCareerTipsRoute: AuthenticatedCareerTipsRoute,
+  AuthenticatedCvAndLettersRoute: AuthenticatedCvAndLettersRoute,
+  AuthenticatedGoalSetterRoute: AuthenticatedGoalSetterRoute,
+  AuthenticatedHomeRoute: AuthenticatedHomeRoute,
 }
 
-const AutenticatedRouteRouteWithChildren =
-  AutenticatedRouteRoute._addFileChildren(AutenticatedRouteRouteChildren)
+const AuthenticatedRouteRouteWithChildren =
+  AuthenticatedRouteRoute._addFileChildren(AuthenticatedRouteRouteChildren)
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
-  AutenticatedRouteRoute: AutenticatedRouteRouteWithChildren,
+  AuthenticatedRouteRoute: AuthenticatedRouteRouteWithChildren,
   AuthRoute: AuthRoute,
   ApiAiRoute: ApiAiRoute,
 }

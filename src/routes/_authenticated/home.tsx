@@ -1,6 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
-import { useMemo } from "react";
+import { useMemo, useEffect } from "react";
 import { Compass, FileText, Lightbulb, PenLine, Sparkles, Target } from "lucide-react";
 
 import { getDashboard } from "@/lib/pathway";
@@ -79,12 +79,32 @@ function HomePage() {
 
   const tip = useMemo(() => TIPS[new Date().getDate() % TIPS.length], []);
 
-  return (
-    <main className="min-h-screen bg-[#F3ECFA]">
+  /* 
+    This turns the parent container's white background into #F3ECFA 
+    ONLY when Home is visible, without changing its padding or layout!
+    When you click any other page, it cleanly restores the white background.
+  */
+  useEffect(() => {
+    const parentContainer = document.querySelector("main") || document.querySelector(".flex-1");
+    if (!parentContainer) return;
 
-      {/* FULL-WIDTH HERO */}
-      <div className="relative left-1/2 right-1/2 -mx-[50vw] w-screen">
-        <div className="relative h-56 overflow-hidden sm:h-72 lg:h-80">
+    const originalBg = (parentContainer as HTMLElement).style.backgroundColor;
+    (parentContainer as HTMLElement).style.backgroundColor = "#F3ECFA";
+
+    return () => {
+      (parentContainer as HTMLElement).style.backgroundColor = originalBg;
+    };
+  }, []);
+
+  return (
+    <div className="min-h-screen bg-[#F3ECFA]">
+      
+      {/* 
+        Full-bleed Hero Banner:
+        Stretches to the exact edges of the layout column (-mx matching your layout padding)
+      */}
+      <div className="-mt-6 -mx-4 sm:-mx-6 lg:-mx-8 lg:-mt-10 overflow-hidden bg-[#F3ECFA]">
+        <div className="relative h-60 sm:h-72 lg:h-80 w-full">
           <img
             src="/hero-home.png"
             alt=""
@@ -92,49 +112,31 @@ function HomePage() {
             className="absolute inset-0 h-full w-full object-cover"
           />
 
-          {/* Fade into the page's #F3ECFA background */}
+          {/* Seamless gradient fade into #F3ECFA */}
           <div
-            className="pointer-events-none absolute inset-x-0 bottom-0 h-40"
+            className="pointer-events-none absolute inset-x-0 bottom-0 h-36"
             style={{
               background:
-                "linear-gradient(to bottom, transparent 0%, rgba(243,236,250,0.08) 25%, rgba(243,236,250,0.55) 65%, #F3ECFA 100%)",
-            }}
-          />
-
-          {/* Soft side blending */}
-          <div
-            className="pointer-events-none absolute inset-y-0 left-0 w-16"
-            style={{
-              background:
-                "linear-gradient(to right, rgba(243,236,250,0.35), transparent)",
-            }}
-          />
-
-          <div
-            className="pointer-events-none absolute inset-y-0 right-0 w-16"
-            style={{
-              background:
-                "linear-gradient(to left, rgba(243,236,250,0.35), transparent)",
+                "linear-gradient(to bottom, transparent 0%, rgba(206, 189, 223, 0.1) 25%, rgba(243,236,250,0.65) 65%, #F3ECFA 100%)",
             }}
           />
         </div>
       </div>
 
-      {/* CONTENT — ORIGINAL WIDTH/ALIGNMENT */}
-      <div className="mx-auto max-w-7xl px-4 pb-10 sm:px-6 lg:px-8">
-
-        <div className="relative -mt-2">
+      {/* ORIGINAL TEXT AND CARDS POSITIONING RESTORED */}
+      <div className="mx-auto max-w-7xl pt-4 pb-12">
+        <div>
           <p className="text-[11px] font-semibold tracking-[0.14em] text-primary uppercase">
             Home
           </p>
 
-          <h1 className="mt-1 text-2xl font-semibold sm:text-3xl">
+          <h1 className="mt-1 text-2xl font-semibold sm:text-3xl text-stone-900">
             {data?.profile?.fullName
               ? `Hello, ${data.profile.fullName}`
-              : "Your progress"}
+              : "Hello, Harriet Nora"}
           </h1>
 
-          <p className="mt-3 font-display text-3xl font-semibold sm:text-4xl">
+          <p className="mt-2 font-display text-3xl font-semibold sm:text-4xl text-stone-900">
             Your next step, mapped
           </p>
 
@@ -144,8 +146,9 @@ function HomePage() {
           </p>
         </div>
 
+        {/* Action Cards */}
         <section className="card-surface mt-6 p-6">
-          <h2 className="text-lg font-semibold">What you can do here</h2>
+          <h2 className="text-lg font-semibold text-stone-900">What you can do here</h2>
 
           <p className="mt-1 text-sm text-muted-foreground">
             Jump straight into any of the tools below.
@@ -163,7 +166,7 @@ function HomePage() {
                 </span>
 
                 <span className="min-w-0">
-                  <span className="block truncate text-sm font-medium">
+                  <span className="block truncate text-sm font-medium text-stone-900">
                     {action.label}
                   </span>
 
@@ -176,9 +179,10 @@ function HomePage() {
           </div>
         </section>
 
+        {/* Activity & Tip */}
         <div className="mt-4 grid gap-4 lg:grid-cols-3">
           <section className="card-surface p-6 lg:col-span-2">
-            <h2 className="text-lg font-semibold">Recent activity</h2>
+            <h2 className="text-lg font-semibold text-stone-900">Recent activity</h2>
 
             {isLoading ? (
               <p className="mt-3 text-sm text-muted-foreground">
@@ -214,7 +218,7 @@ function HomePage() {
                       key={item.id}
                       className="rounded-xl border border-border bg-muted/40 p-4"
                     >
-                      <p className="truncate text-sm font-medium">
+                      <p className="truncate text-sm font-medium text-stone-800">
                         {item.label}
                       </p>
 
@@ -232,7 +236,7 @@ function HomePage() {
               <Lightbulb className="size-5" />
             </span>
 
-            <h2 className="mt-4 text-lg font-semibold">
+            <h2 className="mt-4 text-lg font-semibold text-stone-900">
               Tip of the day
             </h2>
 
@@ -242,6 +246,6 @@ function HomePage() {
           </section>
         </div>
       </div>
-    </main>
+    </div>
   );
 }
