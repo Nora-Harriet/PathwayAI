@@ -124,7 +124,7 @@ function HomePage() {
       </div>
 
       {/* ORIGINAL TEXT AND CARDS POSITIONING RESTORED */}
-      <div className="mx-auto max-w-7xl pt-4 pb-12">
+      <div className="mx-auto max-w-7xl px-4 pt-4 pb-12 sm:px-6 lg:px-8">
         <div>
           <p className="text-[11px] font-semibold tracking-[0.14em] text-primary uppercase">
             Home
@@ -181,7 +181,7 @@ function HomePage() {
 
         {/* Activity & Tip */}
         <div className="mt-4 grid gap-4 lg:grid-cols-3">
-          <section className="card-surface p-6 lg:col-span-2">
+          <section className="card-surface p-6 lg:col-span-2 min-w-0">
             <h2 className="text-lg font-semibold text-stone-900">Recent activity</h2>
 
             {isLoading ? (
@@ -231,7 +231,7 @@ function HomePage() {
             )}
           </section>
 
-          <section className="card-surface p-6">
+          <section className="card-surface p-6 min-w-0">
             <span className="grid size-10 place-items-center rounded-xl bg-accent text-accent-foreground">
               <Lightbulb className="size-5" />
             </span>
