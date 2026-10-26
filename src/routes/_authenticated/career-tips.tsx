@@ -44,21 +44,21 @@ export const Route = createFileRoute("/_autenticated/career-tips")({
 const LINKEDIN = [
   "Use a clear headshot and a headline that says what you do, not just 'Student at …'.",
   "Write an About section in the first person: what you study, what you're good at, what you're looking for.",
-  "List coursework projects, volunteering and student leadership as experience — they count.",
+  "List coursework projects, volunteering and student leadership as experience;they count.",
   "Follow the organisations you want to work for and comment thoughtfully on their posts.",
   "Ask two lecturers or supervisors for a short recommendation before you graduate.",
 ];
 
 const HABITS = [
   "Tailor your CV for every application: mirror the words used in the job advert.",
-  "Keep a running 'brag list' of achievements, numbers and praise — it makes CV writing painless.",
+  "Keep a running 'brag list' of achievements, numbers and praise, it makes CV writing painless.",
   "Apply to fewer roles, better. Five tailored applications beat fifty generic ones.",
   "Follow up politely a week after an interview; a short thank-you note is remembered.",
   "Track applications in one simple sheet: role, organisation, date, status, next action.",
 ];
 
 const EXPERIENCE = [
-  "Treat internships, volunteering, school projects and freelance work as real experience — they demonstrate what you can do.",
+  "Treat internships, volunteering, school projects and freelance work as real experience because they demonstrate what you can do.",
   "Take on projects that let you practise skills related to the career you want.",
   "Keep a record of what you contributed to each project and the results you achieved.",
   "Don't wait for your first job to start building your experience.",
@@ -84,13 +84,13 @@ const TAILOR_CV = [
 const JOB_DESCRIPTION = [
   "Read the responsibilities to understand what you would actually be doing in the role.",
   "Separate required qualifications from skills that are simply preferred.",
-  "Look for repeated skills or keywords — they often show what the employer values most.",
+  "Look for repeated skills or keywords, they often show what the employer values most.",
   "Check whether your education and experience meet the basic requirements before applying.",
   "Use the job description as a guide when preparing your CV and interview answers.",
 ];
 
 const NETWORKING = [
-  "Start with people you already know — lecturers, supervisors, classmates, alumni and professionals.",
+  "Start with people you already know: lecturers, supervisors, classmates, alumni and professionals.",
   "Ask questions and show genuine interest instead of immediately asking someone for a job.",
   "Introduce yourself clearly and briefly explain what career you're interested in.",
   "Stay in touch with people you meet professionally.",
@@ -106,7 +106,7 @@ const TELL_ME_ABOUT_YOURSELF = [
 ];
 
 const SOFT_SKILLS = [
-  "Don't just write 'excellent communication skills' — show where you've used them.",
+  "Don't just write 'excellent communication skills', show where you've used them.",
   "Use school projects, volunteering, internships and leadership roles as examples.",
   "Explain how you solved problems, worked with others or handled responsibility.",
   "When possible, describe the result of your actions.",
@@ -134,7 +134,7 @@ const PORTFOLIO = [
   "Keep examples of your best academic, personal, volunteer or freelance projects.",
   "Briefly explain the problem, your role, the skills you used and the result.",
   "Update your portfolio as you gain new experience.",
-  "Choose quality over quantity — a few strong projects are better than many unfinished ones.",
+  "Choose quality over quantity, a few strong projects are better than many unfinished ones.",
   "Link your portfolio to your CV and LinkedIn profile when appropriate.",
 ];
 
@@ -152,7 +152,7 @@ const STAR_METHOD = [
   "T — Task: Describe what you were responsible for.",
   "A — Action: Explain the specific steps you took.",
   "R — Result: End with what happened and what you learned or achieved.",
-  "Use examples from school projects, internships, volunteering or work — you don't need years of experience.",
+  "Use examples from school projects, internships, volunteering or work, you don't need years of experience.",
 ];
 
 const SMART_GOALS = [

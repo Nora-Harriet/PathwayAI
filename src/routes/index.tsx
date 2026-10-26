@@ -6,17 +6,17 @@ import { Button } from "@/components/ui/button";
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "Pathway — AI Career Advisor for Final-Year Students" },
+      { title: "Pathway — AI Career Companion for Students" },
       {
         name: "description",
         content:
           "Pathway helps final-year students and recent graduates find fitting career paths, sharpen their CV and draft cover letters with AI.",
       },
-      { property: "og:title", content: "Pathway — AI Career Advisor for Final-Year Students" },
+      { property: "og:title", content: "Pathway — AI Career Companion for Students" },
       {
         property: "og:description",
         content:
-          "AI career matches, CV feedback and cover letters, plus practical tips for entry-level and humanitarian roles.",
+          "AI career matches, CV feedback and cover letters, goal setter, chatbot plus practical tips for entry-level and humanitarian roles.",
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
@@ -34,7 +34,7 @@ const FEATURES = [
   {
     icon: FileText,
     title: "CV & Letters",
-    body: "Paste a CV section for specific, encouraging feedback — or draft a motivation letter in one go.",
+    body: "Paste a CV section for specific, encouraging feedback or draft a motivation letter in one go.",
   },
   {
     icon: GraduationCap,
@@ -67,7 +67,7 @@ function Landing() {
             Figure out where your degree can actually take you
           </h1>
           <p className="mx-auto mt-4 max-w-xl text-sm text-muted-foreground sm:text-base">
-            Pathway turns your skills, studies and interests into clear career directions — then
+            Pathway turns your skills, studies and interests into clear career directions, then
             helps you write the CV and letter that get you there.
           </p>
           <div className="mt-8 flex justify-center">

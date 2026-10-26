@@ -9,13 +9,13 @@ import { Button } from "@/components/ui/button";
 export const Route = createFileRoute("/_authenticated/home")({
   head: () => ({
     meta: [
-      { title: "Your progress — Pathway" },
+      { title: "Pathway" },
       {
         name: "description",
         content:
           "Track your Pathway progress: profile, career matches, CV feedback and cover letters, all saved to your account.",
       },
-      { property: "og:title", content: "Your progress — Pathway" },
+      { property: "og:title", content: "Pathway" },
       {
         property: "og:description",
         content: "A simple dashboard of everything you've built in Pathway so far.",
