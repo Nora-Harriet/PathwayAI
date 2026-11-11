@@ -1,18 +1,18 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { Compass, FileText, GraduationCap, HeartHandshake, Sparkles, Target } from "lucide-react";
+import { Compass, FileText, GraduationCap, HeartHandshake, Sparkles, Target, MessageCircleHeart } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "Pathway — AI Career Guide for Final-Year Students" },
+      { title: "Pathway AI Career Guide" },
       {
         name: "description",
         content:
           "Pathway helps final-year students and recent graduates find fitting career paths, sharpen their CV and draft cover letters with AI.",
       },
-      { property: "og:title", content: "Pathway — AI Career Advisor for Final-Year Students" },
+      { property: "og:title", content: "Pathway AI Career Advisor" },
       {
         property: "og:description",
         content:
@@ -34,7 +34,7 @@ const FEATURES = [
   {
     icon: FileText,
     title: "CV & Letters",
-    body: "Paste a CV section for specific, encouraging feedback — or draft a motivation letter in one go.",
+    body: "Paste a CV section for specific, encouraging feedback or draft a motivation letter in one go.",
   },
   
   {
@@ -49,7 +49,7 @@ const FEATURES = [
     body: "Turn your ambitions into achievable SMART goals. Break them into actionable steps, set deadlines and track your progress as you work towards success.",
   },
   {
-    icon: HeartHandshake,
+    icon: MessageCircleHeart,
     title: "Nuri",
     body: "A supportive space to talk through stress, school, work and life. Reflect on your feelings, explore your goals and find manageable next steps.",
   },
@@ -63,7 +63,7 @@ function Landing() {
           <span className="grid size-9 place-items-center rounded-xl bg-primary text-primary-foreground">
             <Sparkles className="size-4" />
           </span>
-          <span className="font-display text-lg font-semibold">Pathway</span>
+          <span className="font-display text-lg font-semibold">Pathway AI Guide</span>
         </div>
         <Button asChild size="sm">
           <Link to="/auth">Sign in</Link>
@@ -79,7 +79,7 @@ function Landing() {
             Figure out where your degree can actually take you
           </h1>
           <p className="mx-auto mt-4 max-w-xl text-sm text-muted-foreground sm:text-base">
-            Pathway turns your skills, studies and interests into clear career directions — then
+            Pathway turns your skills, studies and interests into clear career directions, then
             helps you write the CV and letter that get you there.
           </p>
           <div className="mt-8 flex justify-center">
@@ -103,7 +103,7 @@ function Landing() {
 
         <section className="card-surface mt-6 grid gap-4 p-6 sm:grid-cols-[auto_minmax(0,1fr)] sm:items-center sm:p-8">
           <span className="grid size-12 shrink-0 place-items-center rounded-2xl bg-accent text-accent-foreground">
-            <Sparkles className="size-6" />
+            <HeartHandshake className="size-6" />
           </span>
           <div className="min-w-0">
             <h2 className="text-lg font-semibold">Experience you can start building today</h2>

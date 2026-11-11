@@ -1,21 +1,32 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
-import { useMemo, useEffect } from "react";
-import { Compass, FileText, Lightbulb, PenLine, Sparkles, Target } from "lucide-react";
+import { useMemo } from "react";
+import {
+  ArrowRight,
+  BadgeCheck,
+  Compass,
+  FileText,
+  Lightbulb,
+  MessageCircleMore,
+  Target,
+  TrendingUp,
+  User,
+} from "lucide-react";
+
+import { HeroCarousel } from "@/components/home/HeroCarousel";
 
 import { getDashboard } from "@/lib/pathway";
-import { Button } from "@/components/ui/button";
 
 export const Route = createFileRoute("/_authenticated/home")({
   head: () => ({
     meta: [
-      { title: "Pathway" },
+      { title: "Your progress — Pathway" },
       {
         name: "description",
         content:
           "Track your Pathway progress: profile, career matches, CV feedback and cover letters, all saved to your account.",
       },
-      { property: "og:title", content: "Pathway" },
+      { property: "og:title", content: "Your progress — Pathway" },
       {
         property: "og:description",
         content: "A simple dashboard of everything you've built in Pathway so far.",
@@ -34,217 +45,133 @@ const TIPS = [
   "One thoughtful LinkedIn comment a week beats a hundred cold applications.",
 ];
 
-const ACTIONS = [
-  {
-    label: "Build your profile",
-    description:
-      "Save your education, skills and interests once and reuse them everywhere.",
-    to: "/advisor" as const,
-    icon: PenLine,
-  },
-  {
-    label: "Get a career match",
-    description:
-      "AI-matched career paths with the skills to build for each one.",
-    to: "/advisor" as const,
-    icon: Compass,
-  },
-  {
-    label: "Review your CV",
-    description:
-      "Upload or paste your CV and get specific, honest feedback.",
-    to: "/cv-and-letters" as const,
-    icon: FileText,
-  },
-  {
-    label: "Draft a cover letter",
-    description:
-      "A first draft for any role, ready to personalise and download.",
-    to: "/cv-and-letters" as const,
-    icon: Sparkles,
-  },
-  {
-    label: "Set a goal",
-    description: "Set a target and track your progress.",
-    to: "/goal-setter" as const,
-    icon: Target,
-  },
+type Tone = "sky" | "lavender" | "mint" | "violet" | "pink" | "peach";
+
+const ACTIONS: {
+  label: string;
+  description: string;
+  to: "/profile" | "/advisor" | "/cv-and-letters" | "/nuri" | "/career-tips" | "/goal-setter";
+  icon: typeof Compass;
+  tone: Tone;
+  badge?: boolean;
+}[] = [
+  { label: "Build Your Profile", description: "Show who you are and what you offer.", to: "/profile", icon: User, tone: "sky" },
+  { label: "Career Advisor", description: "Discover career paths that fit you.", to: "/advisor", icon: Compass, tone: "lavender" },
+  { label: "CV & Letters", description: "Build stronger applications.", to: "/cv-and-letters", icon: FileText, tone: "mint" },
+  { label: "Nuri", description: "Chat, reflect and get guidance.", to: "/nuri", icon: MessageCircleMore, tone: "violet", badge: true },
+  { label: "Career Tips", description: "Learn, prepare and grow.", to: "/career-tips", icon: Lightbulb, tone: "pink" },
+  { label: "Goal Setter", description: "Turn ambitions into action.", to: "/goal-setter", icon: Target, tone: "peach" },
 ];
 
+function ActionCard({ action, wide = false }: { action: (typeof ACTIONS)[number]; wide?: boolean }) {
+  return (
+    <Link to={action.to} className={`home-card home-card-${action.tone} ${wide ? "items-center" : ""}`}>
+      <span className="home-card-spark" aria-hidden="true" />
+      <span className="home-card-icon">
+        <action.icon className="size-7 sm:size-8" strokeWidth={1.8} />
+      </span>
+      <span className="min-w-0 flex-1 pr-8">
+        <span className="flex items-center gap-1.5 text-lg font-bold">
+          {action.label}
+          {action.badge && <BadgeCheck className="home-card-badge size-5" />}
+        </span>
+        <span className="mt-1 block text-sm opacity-80">{action.description}</span>
+      </span>
+      <span className="home-card-arrow" aria-hidden="true">
+        <ArrowRight className="size-4" />
+      </span>
+    </Link>
+  );
+}
+
 function HomePage() {
-  const { data, isLoading } = useQuery({
-    queryKey: ["dashboard"],
-    queryFn: getDashboard,
-  });
+  const { data, isLoading } = useQuery({ queryKey: ["dashboard"], queryFn: getDashboard });
 
   const tip = useMemo(() => TIPS[new Date().getDate() % TIPS.length], []);
-
-  /* 
-    This turns the parent container's white background into #F3ECFA 
-    ONLY when Home is visible, without changing its padding or layout!
-    When you click any other page, it cleanly restores the white background.
-  */
-  useEffect(() => {
-    const parentContainer = document.querySelector("main") || document.querySelector(".flex-1");
-    if (!parentContainer) return;
-
-    const originalBg = (parentContainer as HTMLElement).style.backgroundColor;
-    (parentContainer as HTMLElement).style.backgroundColor = "#F3ECFA";
-
-    return () => {
-      (parentContainer as HTMLElement).style.backgroundColor = originalBg;
-    };
-  }, []);
+  const recentItems = [...(data?.matches ?? []), ...(data?.reviews ?? []), ...(data?.letters ?? [])]
+    .sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime())
+    .slice(0, 2);
 
   return (
-    <div className="min-h-screen bg-[#F3ECFA]">
-      
-      {/* 
-        Full-bleed Hero Banner:
-        Stretches to the exact edges of the layout column (-mx matching your layout padding)
-      */}
-      <div className="-mt-6 -mx-4 sm:-mx-6 lg:-mx-8 lg:-mt-10 overflow-hidden bg-[#F3ECFA]">
-        <div className="relative h-60 sm:h-72 lg:h-80 w-full">
-          <img
-            src="/hero-home.png"
-            alt=""
-            aria-hidden="true"
-            className="absolute inset-0 h-full w-full object-cover"
-          />
+    <div className="relative left-1/2 -my-6 min-h-[calc(100vh-64px)] w-screen -translate-x-1/2 overflow-hidden bg-[#F3ECFA] lg:-my-10 lg:min-h-screen lg:w-[calc(100vw-16rem)]">
+      {/* Full content-area background image */}
+      <img
+        src="/hero-home.png"
+        alt=""
+        aria-hidden="true"
+        className="absolute inset-0 h-full w-full object-cover object-top"
+      />
 
-          {/* Seamless gradient fade into #F3ECFA */}
-          <div
-            className="pointer-events-none absolute inset-x-0 bottom-0 h-36"
-            style={{
-              background:
-                "linear-gradient(to bottom, transparent 0%, rgba(206, 189, 223, 0.1) 25%, rgba(243,236,250,0.65) 65%, #F3ECFA 100%)",
-            }}
-          />
-        </div>
-      </div>
+      {/* Soft readability overlay */}
+      <div className="pointer-events-none absolute inset-0 bg-[#F3ECFA]/25" />
 
-      {/* ORIGINAL TEXT AND CARDS POSITIONING RESTORED */}
-      <div className="mx-auto max-w-7xl px-4 pt-4 pb-12 sm:px-6 lg:px-8">
-        <div>
-          <p className="text-[11px] font-semibold tracking-[0.14em] text-primary uppercase">
-            Home
-          </p>
+      {/* Side fades */}
+      <div
+        className="pointer-events-none absolute inset-y-0 left-0 w-24"
+        style={{
+          background:
+            "linear-gradient(to right, #F3ECFA 0%, rgba(243,236,250,0.45) 35%, transparent 100%)",
+        }}
+      />
+      <div
+        className="pointer-events-none absolute inset-y-0 right-0 w-24"
+        style={{
+          background:
+            "linear-gradient(to left, #F3ECFA 0%, rgba(243,236,250,0.45) 35%, transparent 100%)",
+        }}
+      />
 
-          <h1 className="mt-1 text-2xl font-semibold sm:text-3xl text-stone-900">
-            {data?.profile?.fullName
-              ? `Hello, ${data.profile.fullName}`
-              : "Hello, Harriet Nora"}
-          </h1>
+      {/* Content */}
+      <div className="relative px-4 py-6 pb-10 sm:px-6 lg:py-10">
+        <HeroCarousel />
 
-          <p className="mt-2 font-display text-3xl font-semibold sm:text-4xl text-stone-900">
-            Your next step, mapped
-          </p>
-
-          <p className="mt-2 max-w-2xl text-sm text-muted-foreground">
-            One place to find your fit, sharpen your CV, and take the next
-            step with confidence.
-          </p>
-        </div>
-
-        {/* Action Cards */}
-        <section className="card-surface mt-6 p-6">
-          <h2 className="text-lg font-semibold text-stone-900">What you can do here</h2>
-
+        <div className="mt-6">
+          <h2 className="text-2xl font-semibold sm:text-3xl">
+            {data?.profile?.fullName ? `Welcome back, ${data.profile.fullName}!` : "Welcome to Pathway!"}
+          </h2>
           <p className="mt-1 text-sm text-muted-foreground">
-            Jump straight into any of the tools below.
+            Let's take the next step in your career journey.
           </p>
+        </div>
 
-          <div className="mt-6 grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
-            {ACTIONS.map((action) => (
-              <Link
-                key={action.label}
-                to={action.to}
-                className="flex items-start gap-3 rounded-xl border border-border bg-muted/40 p-4 transition-colors hover:bg-accent/60"
-              >
-                <span className="grid size-9 shrink-0 place-items-center rounded-lg bg-accent text-accent-foreground">
-                  <action.icon className="size-4" />
-                </span>
-
-                <span className="min-w-0">
-                  <span className="block truncate text-sm font-medium text-stone-900">
-                    {action.label}
-                  </span>
-
-                  <span className="mt-1 block text-xs text-muted-foreground">
-                    {action.description}
-                  </span>
-                </span>
-              </Link>
+        <section className="mt-5">
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
+            {ACTIONS.slice(0, 4).map((action) => (
+              <ActionCard key={action.label} action={action} />
             ))}
+          </div>
+          <div className="mt-4 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            <ActionCard action={ACTIONS[4]!} />
+            <ActionCard action={ACTIONS[5]!} />
+          <div className="home-card home-card-lavender sm:col-span-2 lg:col-span-1">
+            <span className="min-w-0 flex-1">
+              <span className="block text-sm font-bold">Recent activity</span>
+              {isLoading ? (
+                <span className="mt-1 block text-xs opacity-80">Loading…</span>
+              ) : recentItems.length === 0 ? (
+                <span className="mt-1 block text-xs opacity-80">Nothing saved yet. Start with the Career Advisor.</span>
+              ) : (
+                recentItems.map((item) => (
+                  <span key={item.id} className="mt-1 block truncate text-xs opacity-80">
+                    {item.label} · {item.createdAt.toLocaleDateString()}
+                  </span>
+                ))
+              )}
+            </span>
+          </div>
           </div>
         </section>
 
-        {/* Activity & Tip */}
-        <div className="mt-4 grid gap-4 lg:grid-cols-3">
-          <section className="card-surface p-6 lg:col-span-2 min-w-0">
-            <h2 className="text-lg font-semibold text-stone-900">Recent activity</h2>
-
-            {isLoading ? (
-              <p className="mt-3 text-sm text-muted-foreground">
-                Loading…
-              </p>
-            ) : (data?.matches.length ?? 0) +
-                (data?.reviews.length ?? 0) +
-                (data?.letters.length ?? 0) ===
-              0 ? (
-              <div className="mt-3">
-                <p className="text-sm text-muted-foreground">
-                  Nothing saved yet. Start with a career match — it takes
-                  about a minute.
-                </p>
-
-                <Button asChild className="mt-4">
-                  <Link to="/advisor">Get my career match</Link>
-                </Button>
-              </div>
-            ) : (
-              <ul className="mt-4 space-y-3">
-                {[
-                  ...(data?.matches ?? []),
-                  ...(data?.reviews ?? []),
-                  ...(data?.letters ?? []),
-                ]
-                  .sort(
-                    (a, b) =>
-                      b.createdAt.getTime() - a.createdAt.getTime()
-                  )
-                  .map((item) => (
-                    <li
-                      key={item.id}
-                      className="rounded-xl border border-border bg-muted/40 p-4"
-                    >
-                      <p className="truncate text-sm font-medium text-stone-800">
-                        {item.label}
-                      </p>
-
-                      <p className="mt-1 text-xs text-muted-foreground">
-                        {item.createdAt.toLocaleDateString()}
-                      </p>
-                    </li>
-                  ))}
-              </ul>
-            )}
-          </section>
-
-          <section className="card-surface p-6 min-w-0">
-            <span className="grid size-10 place-items-center rounded-xl bg-accent text-accent-foreground">
-              <Lightbulb className="size-5" />
-            </span>
-
-            <h2 className="mt-4 text-lg font-semibold text-stone-900">
-              Tip of the day
-            </h2>
-
-            <p className="mt-2 text-sm text-muted-foreground">
-              {tip}
-            </p>
-          </section>
-        </div>
+        <section className="home-tip mt-4">
+          <TrendingUp className="size-10 shrink-0 text-primary" strokeWidth={2} aria-hidden="true" />
+          <div className="relative z-10 min-w-0 max-w-xl">
+            <h2 className="text-lg font-bold">Tip of the Day</h2>
+            <p className="mt-1 text-sm opacity-80">{tip}</p>
+          </div>
+          <svg className="home-tip-skyline" viewBox="0 0 400 100" preserveAspectRatio="xMaxYMax meet" aria-hidden="true">
+            <path d="M0 100 Q20 80 40 92 Q60 70 80 90 L100 100Z M110 100V60h30v40Z M150 100V45h40v55Z M200 100V30h12l18-18 18 18h12v70Z M270 100V55h35v45Z M315 100V40h45v60Z M370 100 Q385 70 400 85V100Z" />
+          </svg>
+        </section>
       </div>
     </div>
   );
