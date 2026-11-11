@@ -29,6 +29,17 @@ export type Profile = {
   education?: string;
   skills?: string;
   interests?: string;
+  educationHistory?: EducationEntry[];
+  achievements?: string[];
+  bio?: string;
+  highlights?: string;
+};
+
+export type EducationEntry = {
+  institution: string;
+  qualification: string;
+  startDate: string;
+  endDate: string;
 };
 
 export type Activity = {
@@ -92,6 +103,11 @@ export async function getDashboard(): Promise<Dashboard> {
     latestFeedback: (reviews[0]?.data["feedback"] as string | undefined) ?? null,
     latestLetter: (letters[0]?.data["letter"] as string | undefined) ?? null,
   };
+}
+
+export async function getProfile(): Promise<Profile | null> {
+  const snap = await getDoc(doc(db, "users", uid()));
+  return (snap.data() as Profile | undefined) ?? null;
 }
 
 export async function saveProfile(profile: Profile): Promise<void> {
