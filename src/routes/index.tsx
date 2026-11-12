@@ -1,18 +1,17 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { Compass, FileText, GraduationCap, HeartHandshake, Sparkles, Target, MessageCircleHeart } from "lucide-react";
+import { ArrowRight, Compass, FileText, GraduationCap, HeartPulse, Target, TrendingUp } from "lucide-react";
 
-import { Button } from "@/components/ui/button";
 
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "Pathway AI Career Guide" },
+      { title: "Pathway — AI Career Advisor for Final-Year Students" },
       {
         name: "description",
         content:
           "Pathway helps final-year students and recent graduates find fitting career paths, sharpen their CV and draft cover letters with AI.",
       },
-      { property: "og:title", content: "Pathway AI Career Advisor" },
+      { property: "og:title", content: "Pathway — AI Career Advisor for Final-Year Students" },
       {
         property: "og:description",
         content:
@@ -26,95 +25,103 @@ export const Route = createFileRoute("/")({
 });
 
 const FEATURES = [
-  {
-    icon: Compass,
-    title: "Career Advisor",
-    body: "Share your skills, studies and interests. Get career paths that fit, with the exact skills to build next.",
-  },
-  {
-    icon: FileText,
-    title: "CV & Letters",
-    body: "Paste a CV section for specific, encouraging feedback or draft a motivation letter in one go.",
-  },
-  
-  {
-    icon: GraduationCap,
-    title: "Career Tips",
-    body: "LinkedIn habits, job-search routines and a short intro to the Big Five personality traits.",
-  },
-  
-   {
-    icon: Target,
-    title: "Goal Setter",
-    body: "Turn your ambitions into achievable SMART goals. Break them into actionable steps, set deadlines and track your progress as you work towards success.",
-  },
-  {
-    icon: MessageCircleHeart,
-    title: "Nuri",
-    body: "A supportive space to talk through stress, school, work and life. Reflect on your feelings, explore your goals and find manageable next steps.",
-  },
+  { icon: Compass, title: "Career Advisor", tone: "lav", body: "Share your skills, studies and interests. Get career paths that fit, with the exact skills to build next." },
+  { icon: FileText, title: "CV & Letters", tone: "mint", body: "Paste a CV section for specific, encouraging feedback — or draft a motivation letter in one go." },
+  { icon: GraduationCap, title: "Career Tips", tone: "gold", body: "LinkedIn habits, job-search routines and a short intro to the Big Five personality traits." },
+  { icon: Target, title: "Goal Setter", tone: "blue", body: "Turn your ambitions into achievable SMART goals. Break them into actionable steps, set deadlines and track your progress as you work towards success." },
+  { icon: HeartPulse, title: "Nuri", tone: "rose", body: "A supportive space to talk through stress, school, work and life. Reflect on your feelings, explore your goals and find manageable next steps." },
 ];
+
+function Mark({ size = "md" }: { size?: "md" | "lg" | "sm" }) {
+  return <img src="/favicon.png" alt="" className={`lp-logo lp-logo-${size}`} />;
+}
 
 function Landing() {
   return (
-    <div className="min-h-screen bg-background">
-      <header className="mx-auto flex w-full max-w-6xl items-center justify-between px-4 py-5 sm:px-6">
-        <div className="flex items-center gap-2.5">
-          <span className="grid size-9 place-items-center rounded-xl bg-primary text-primary-foreground">
-            <Sparkles className="size-4" />
-          </span>
-          <span className="font-display text-lg font-semibold">Pathway AI Guide</span>
-        </div>
-        <Button asChild size="sm">
-          <Link to="/auth">Sign in</Link>
-        </Button>
+    <div className="lp">
+      <header className="lp-wrap lp-header">
+        <Link to="/" className="lp-brand" aria-label="Pathway home">
+          <Mark />
+          <span>Pathway</span>
+        </Link>
+        <Link to="/auth" className="lp-signin">
+          Sign in <ArrowRight className="size-4" />
+        </Link>
       </header>
 
-      <main className="mx-auto w-full max-w-6xl px-4 pb-16 sm:px-6">
-        <section className="card-surface mt-4 overflow-hidden px-6 py-12 text-center sm:px-10 sm:py-16">
-          <p className="text-[11px] font-semibold tracking-[0.14em] text-primary uppercase">
-            Built by students, for students
-          </p>
-          <h1 className="mx-auto mt-3 max-w-3xl text-3xl leading-tight font-semibold sm:text-5xl">
-            Figure out where your degree can actually take you
-          </h1>
-          <p className="mx-auto mt-4 max-w-xl text-sm text-muted-foreground sm:text-base">
-            Pathway turns your skills, studies and interests into clear career directions, then
-            helps you write the CV and letter that get you there.
-          </p>
-          <div className="mt-8 flex justify-center">
-            <Button asChild size="lg">
-              <Link to="/auth">Get started free</Link>
-            </Button>
+      <main className="lp-wrap">
+        <section className="lp-hero lp-rise" aria-labelledby="lp-title">
+          <div className="lp-hero-copy">
+            <p className="lp-pill"><span className="lp-dot" />Built by students, for students</p>
+            <h1 id="lp-title" className="lp-h1">
+              Figure out where your degree can <span className="lp-grad">actually take you</span>
+            </h1>
+            <p className="lp-lead">
+              Pathway turns your skills, studies and interests into clear career directions — then
+              helps you write the CV and letter that get you there.
+            </p>
+            <Link to="/auth" className="lp-cta">
+              Get started free
+              <span className="lp-cta-arrow"><ArrowRight className="size-[18px]" /></span>
+            </Link>
+          </div>
+
+          <div className="lp-hero-art">
+            <span className="lp-spark lp-spark-gold" aria-hidden="true">✦</span>
+            <span className="lp-spark lp-spark-blue" aria-hidden="true">✦</span>
+            <div className="lp-photo">
+              <img src="https://images.unsplash.com/photo-1655720357872-ce227e4164ba?auto=format&fit=crop&w=1100&q=85" alt="Three young Black women students talking and working together with a laptop and notebooks" />
+            </div>
+            <div className="lp-float lp-float-a">
+              <span className="lp-float-icon lp-float-icon-lav"><Compass className="size-[19px]" /></span>
+              <span><small>Your direction</small><b>Career clarity</b></span>
+              <span className="lp-dot" />
+            </div>
+            <div className="lp-float lp-float-b">
+              <span className="lp-float-icon lp-float-icon-mint"><TrendingUp className="size-[19px]" /></span>
+              <span><small>Built to help you</small><b>Grow with confidence</b></span>
+            </div>
           </div>
         </section>
 
-        <section className="mt-6 grid gap-4 sm:grid-cols-3">
-          {FEATURES.map((feature) => (
-            <div key={feature.title} className="card-surface p-6">
-              <span className="grid size-10 place-items-center rounded-xl bg-accent text-accent-foreground">
-                <feature.icon className="size-5" />
-              </span>
-              <h2 className="mt-4 text-lg font-semibold">{feature.title}</h2>
-              <p className="mt-2 text-sm text-muted-foreground">{feature.body}</p>
-            </div>
-          ))}
+        <section className="lp-features" aria-labelledby="lp-features-title">
+          <p className="lp-eyebrow">Everything in one place</p>
+          <h2 id="lp-features-title" className="lp-h2">Build your path, your way.</h2>
+          <div className="lp-grid">
+            {FEATURES.map((f, i) => (
+              <article key={f.title} className={`lp-card lp-card-${f.tone} lp-rise`} style={{ animationDelay: `${i * 80}ms` }}>
+                <span className="lp-card-orb" aria-hidden="true" />
+                <div className="lp-card-top">
+                  <span className="lp-card-icon"><f.icon className="size-[22px]" /></span>
+                  <span className="lp-card-num">0{i + 1}</span>
+                </div>
+                <h3>{f.title}</h3>
+                <p>{f.body}</p>
+              </article>
+            ))}
+          </div>
         </section>
 
-        <section className="card-surface mt-6 grid gap-4 p-6 sm:grid-cols-[auto_minmax(0,1fr)] sm:items-center sm:p-8">
-          <span className="grid size-12 shrink-0 place-items-center rounded-2xl bg-accent text-accent-foreground">
-            <HeartHandshake className="size-6" />
-          </span>
-          <div className="min-w-0">
-            <h2 className="text-lg font-semibold">Experience you can start building today</h2>
-            <p className="mt-2 text-sm text-muted-foreground">
+        <aside className="lp-callout lp-rise">
+          <Mark size="lg" />
+          <div>
+            <p className="lp-eyebrow lp-eyebrow-green">A head start that matters</p>
+            <h2>Experience you can start building today</h2>
+            <p>
               Most entry-level roles still ask for up to a year of experience. Pathway leans on
               humanitarian and NGO volunteering routes as a realistic way to close that gap before
               you graduate.
             </p>
           </div>
-        </section>
+          <svg className="lp-wave" viewBox="0 0 180 70" aria-hidden="true"><path d="M4 66 C40 66 40 6 76 6 S112 66 140 66 S170 20 176 10" fill="none" strokeWidth="6" strokeLinecap="round" /></svg>
+        </aside>
       </main>
+
+      <footer className="lp-wrap lp-footer">
+        <Link to="/" className="lp-brand lp-brand-sm" aria-label="Pathway home"><Mark size="sm" /><span>Pathway</span></Link>
+        <p>Find your direction. Build what comes next.</p>
+        <Link to="/auth" className="lp-footer-link">Sign in</Link>
+      </footer>
     </div>
   );
 }

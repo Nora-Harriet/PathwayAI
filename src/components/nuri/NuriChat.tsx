@@ -1,3 +1,4 @@
+import { useOnlineStatus } from "@/hooks/use-online-status";
 import { Link } from "@tanstack/react-router";
 import { useEffect, useRef, useState, type KeyboardEvent } from "react";
 import {
@@ -48,6 +49,7 @@ const STARTERS = [
 ];
 
 export function NuriChat({ threadId }: { threadId: string }) {
+  const online = useOnlineStatus();
   const [messages, setMessages] = useState<Msg[]>([]);
   const [input, setInput] = useState("");
   const [streaming, setStreaming] = useState(false);
@@ -302,14 +304,14 @@ export function NuriChat({ threadId }: { threadId: string }) {
             aria-label="Message Nuri"
             rows={2}
             maxLength={4000}
-            disabled={!ready || !!saveError}
+            disabled={!ready || !!saveError || !online}
             className="nuri-textarea"
           />
           <PromptInputFooter className="justify-end">
             <PromptInputSubmit
               status={streaming ? "streaming" : "ready"}
               onStop={() => abortRef.current?.abort()}
-              disabled={!streaming && (!input.trim() || !ready || !!saveError)}
+              disabled={!streaming && (!input.trim() || !ready || !!saveError || !online)}
               aria-label={streaming ? "Stop" : "Send"}
               className="nuri-send"
             >

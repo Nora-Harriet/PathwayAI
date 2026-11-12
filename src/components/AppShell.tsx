@@ -1,3 +1,4 @@
+import { OfflineBanner } from "@/components/OfflineBanner";
 import { Link, useNavigate, useRouterState } from "@tanstack/react-router";
 import { useQueryClient } from "@tanstack/react-query";
 import { useState, type ReactNode } from "react";
@@ -159,6 +160,7 @@ export function AppShell({ email, children }: { email: string | null; children: 
       ) : null}
 
       <main className="overflow-x-hidden lg:pl-64">
+        <OfflineBanner />
         <div className="mx-auto w-full max-w-6xl min-w-0 px-4 py-6 sm:px-6 lg:py-10">
           {children}
         </div>

@@ -1,6 +1,12 @@
 import { initializeApp, getApps, type FirebaseApp } from "firebase/app";
 import { getAuth, GoogleAuthProvider, type Auth } from "firebase/auth";
-import { getFirestore, type Firestore } from "firebase/firestore";
+import {
+  getFirestore,
+  initializeFirestore,
+  persistentLocalCache,
+  persistentMultipleTabManager,
+  type Firestore,
+} from "firebase/firestore";
 
 // Firebase web config is publishable — safe in client code.
 const firebaseConfig = {
@@ -14,5 +20,16 @@ const firebaseConfig = {
 
 export const app: FirebaseApp = getApps()[0] ?? initializeApp(firebaseConfig);
 export const auth: Auth = getAuth(app);
-export const db: Firestore = getFirestore(app);
+function makeDb(): Firestore {
+  // Offline cache only in the browser; the server keeps the default in-memory client.
+  if (typeof window === "undefined") return getFirestore(app);
+  try {
+    return initializeFirestore(app, {
+      localCache: persistentLocalCache({ tabManager: persistentMultipleTabManager() }),
+    });
+  } catch {
+    return getFirestore(app); // already initialised (hot reload)
+  }
+}
+export const db: Firestore = makeDb();
 export const googleProvider = new GoogleAuthProvider();

@@ -1,0 +1,10 @@
+{
+  "name": "Pathway — AI Career Advisor",
+  "short_name": "Pathway",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#5c1d68",
+  "icons": [{ "src": "/favicon.png", "sizes": "any", "type": "image/png", "purpose": "any" }]
+}
