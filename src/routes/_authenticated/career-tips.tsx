@@ -22,7 +22,7 @@ import {
 
 import { PageHeader } from "@/components/PageHeader";
 
-export const Route = createFileRoute("/_autenticated/career-tips")({
+export const Route = createFileRoute("/_authenticated/career-tips")({
   head: () => ({
     meta: [
       { title: "Career Tips — Pathway" },
@@ -44,7 +44,7 @@ export const Route = createFileRoute("/_autenticated/career-tips")({
 const LINKEDIN = [
   "Use a clear headshot and a headline that says what you do, not just 'Student at …'.",
   "Write an About section in the first person: what you study, what you're good at, what you're looking for.",
-  "List coursework projects, volunteering and student leadership as experience;they count.",
+  "List coursework projects, volunteering and student leadership as experience; they count.",
   "Follow the organisations you want to work for and comment thoughtfully on their posts.",
   "Ask two lecturers or supervisors for a short recommendation before you graduate.",
 ];
@@ -164,6 +164,80 @@ const SMART_GOALS = [
   "Break bigger career goals into smaller actions you can work on regularly.",
 ];
 
+// NEW CAREER TIPS
+
+const INTERVIEW_PREPARATION = [
+  "Research the organisation and understand what it does.",
+  "Review the job description and identify the skills the employer is looking for.",
+  "Practise common interview questions and prepare examples from your experiences.",
+  "Dress appropriately and plan to arrive early or join the meeting on time.",
+  "Prepare a few thoughtful questions to ask the interviewer.",
+];
+
+const TIME_MANAGEMENT = [
+  "Write down your tasks and identify what needs your attention first.",
+  "Break large tasks into smaller, manageable steps.",
+  "Use time-blocking to dedicate specific periods to important activities.",
+  "Try the Pomodoro technique: work in focused sessions with short breaks.",
+  "Avoid multitasking when working on tasks that require concentration.",
+];
+
+const STRESS_MANAGEMENT = [
+  "Recognise what triggers your stress instead of ignoring it.",
+  "Take short breaks when you feel overwhelmed.",
+  "Try deep breathing, prayer, meditation or other calming activities.",
+  "Maintain a healthy balance between work, studies and rest.",
+  "Talk to someone you trust when you need support.",
+];
+
+const ATTENTION_AND_FOCUS = [
+  "Work in a quiet environment with fewer distractions.",
+  "Put your phone away or silence unnecessary notifications while studying.",
+  "Focus on one task at a time instead of constantly switching between activities.",
+  "Set small goals for each study or work session.",
+  "Take short breaks to refresh your mind and maintain concentration.",
+];
+
+const ELEVATOR_PITCH = [
+  "Prepare a short 30–60 second introduction about yourself.",
+  "Mention what you study, do or specialise in.",
+  "Highlight one or two relevant skills, experiences or achievements.",
+  "Explain the kind of opportunities or professional interests you have.",
+  "Practise until it sounds natural, confident and conversational.",
+];
+
+const SELF_CONFIDENCE = [
+  "Recognise your strengths, skills and achievements instead of focusing only on your weaknesses.",
+  "Stop comparing your progress to someone else's journey.",
+  "Challenge yourself to take on opportunities that help you grow.",
+  "Prepare well for situations that make you nervous.",
+  "Remember that confidence develops through practice and experience.",
+];
+
+const ARTICULATION = [
+  "Organise your thoughts before speaking, especially in professional settings.",
+  "Speak at a comfortable pace and avoid rushing through your words.",
+  "Practise explaining ideas clearly and in simple language.",
+  "Read regularly to improve your vocabulary and understanding.",
+  "Listen carefully to others and avoid interrupting.",
+];
+
+const LEARNING_BEYOND_CLASSROOM = [
+  "Explore free online courses, tutorials and learning platforms.",
+  "Use YouTube and other educational resources to learn practical skills.",
+  "Attend relevant seminars, webinars and professional events.",
+  "Consider certifications that complement your academic background.",
+  "Keep learning even after completing your formal education.",
+];
+
+const UNPLUG_AND_REDISCOVER = [
+  "Take occasional breaks from your phone, social media and other digital distractions.",
+  "Explore offline activities such as reading, walking, journaling or discovering new hobbies.",
+  "Allow yourself moments of boredom and daydreaming. Give your mind room to wander and generate new ideas.",
+  "Spend more time connecting with people and experiencing the world around you.",
+  "Remember that technology is useful, but not every moment needs to be spent on a screen.",
+];
+
 const BIG_FIVE = [
   { trait: "Openness", body: "Curiosity and comfort with new ideas — often suits research and creative roles." },
   { trait: "Conscientiousness", body: "Organisation and follow-through — strong for operations, finance and project work." },
@@ -172,7 +246,17 @@ const BIG_FIVE = [
   { trait: "Neuroticism", body: "Sensitivity to stress — useful to know so you can choose the pace that suits you." },
 ];
 
-function TipCard({ icon: Icon, title, tips }: { icon: React.ElementType; title: string; tips: string[] }) {
+function TipCard({
+  icon: Icon,
+  title,
+  tips,
+  link,
+}: {
+  icon: React.ElementType;
+  title: string;
+  tips: string[];
+  link?: { label: string; url: string };
+}) {
   return (
     <section className="card-surface min-w-0 p-6">
       <div className="flex min-w-0 items-center gap-3">
@@ -181,6 +265,7 @@ function TipCard({ icon: Icon, title, tips }: { icon: React.ElementType; title: 
         </span>
         <h2 className="min-w-0 text-lg font-semibold break-words">{title}</h2>
       </div>
+
       <ul className="mt-4 space-y-3">
         {tips.map((tip) => (
           <li key={tip} className="flex min-w-0 gap-3 text-sm text-muted-foreground">
@@ -189,6 +274,18 @@ function TipCard({ icon: Icon, title, tips }: { icon: React.ElementType; title: 
           </li>
         ))}
       </ul>
+
+      {link && (
+        <a
+          href={link.url}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="mt-4 inline-flex items-center gap-2 text-sm font-medium text-primary underline-offset-4 hover:underline"
+        >
+          {link.label}
+          <ExternalLink className="size-4" />
+        </a>
+      )}
     </section>
   );
 }
@@ -199,7 +296,7 @@ function CareerTips() {
       <PageHeader
         eyebrow="Career Tips"
         title="Practical habits that make the difference"
-        description="No AI here — just the professional-development basics worth getting right while you finish your studies."
+        description="Practical tips to help you build essential skills, grow professionally and advance your career."
       />
 
       <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
@@ -218,6 +315,82 @@ function CareerTips() {
         <TipCard icon={Mail} title="Professional communication" tips={COMMUNICATION} />
         <TipCard icon={Star} title="Using the STAR method in interviews" tips={STAR_METHOD} />
         <TipCard icon={Flag} title="Setting SMART career goals" tips={SMART_GOALS} />
+
+        {/* New career tips */}
+
+        <TipCard
+          icon={MessageCircle}
+          title="Preparing for interviews"
+          tips={INTERVIEW_PREPARATION}
+          link={{
+            label: "Practise with Google Interview Warmup",
+            url: "https://grow.google/certificates/interview-warmup/",
+          }}
+        />
+
+        <TipCard
+          icon={Target}
+          title="Managing your time effectively"
+          tips={TIME_MANAGEMENT}
+          link={{
+            label: "Try the Pomodoro timer",
+            url: "https://pomofocus.io/",
+          }}
+        />
+
+        <TipCard
+          icon={HeartHandshake}
+          title="Managing stress and pressure"
+          tips={STRESS_MANAGEMENT}
+          link={{
+            label: "Explore the WHO stress management guide",
+            url: "https://www.who.int/publications/i/item/9789240003927",
+          }}
+        />
+
+        <TipCard
+          icon={Search}
+          title="Improving attention and focus"
+          tips={ATTENTION_AND_FOCUS}
+        />
+
+        <TipCard
+          icon={MessageCircle}
+          title="Creating your elevator pitch"
+          tips={ELEVATOR_PITCH}
+          link={{
+            label: "Learn how to develop your elevator pitch",
+            url: "https://capd.mit.edu/resources/develop-your-elevator-pitch/",
+          }}
+        />
+
+        <TipCard
+          icon={Star}
+          title="Building self-confidence"
+          tips={SELF_CONFIDENCE}
+        />
+
+        <TipCard
+          icon={Users}
+          title="Becoming a more articulate communicator"
+          tips={ARTICULATION}
+          link={{
+            label: "Watch: How to Speak So That People Want to Listen",
+            url: "https://www.ted.com/talks/julian_treasure_how_to_speak_so_that_people_want_to_listen",
+          }}
+        />
+
+        <TipCard
+          icon={GraduationCap}
+          title="Learning beyond the classroom"
+          tips={LEARNING_BEYOND_CLASSROOM}
+        />
+
+        <TipCard
+          icon={RefreshCcw}
+          title="Unplug and rediscover the world"
+          tips={UNPLUG_AND_REDISCOVER}
+        />
       </div>
 
       <section className="card-surface mt-4 min-w-0 p-6">
@@ -227,11 +400,13 @@ function CareerTips() {
           </span>
           <h2 className="min-w-0 text-lg font-semibold break-words">Know yourself: the Big Five</h2>
         </div>
+
         <p className="mt-3 text-sm text-muted-foreground">
           The Big Five is the most widely used model of personality in psychology. It won't pick a
           career for you, but knowing where you sit makes it much easier to judge whether a role
           will suit the way you actually work.
         </p>
+
         <div className="mt-4 grid grid-cols-1 gap-3 sm:grid-cols-2">
           {BIG_FIVE.map((item) => (
             <div key={item.trait} className="min-w-0 rounded-xl border border-border bg-muted/50 p-4">
@@ -240,6 +415,7 @@ function CareerTips() {
             </div>
           ))}
         </div>
+
         <a
           href="https://bigfive-test.com/"
           target="_blank"
