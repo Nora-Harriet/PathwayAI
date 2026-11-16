@@ -5,13 +5,13 @@ import { ArrowRight, Compass, FileText, GraduationCap, HeartPulse, Target, Trend
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "Pathway — AI Career Advisor for Final-Year Students" },
+      { title: "Pathway — AI Career Advisor" },
       {
         name: "description",
         content:
           "Pathway helps final-year students and recent graduates find fitting career paths, sharpen their CV and draft cover letters with AI.",
       },
-      { property: "og:title", content: "Pathway — AI Career Advisor for Final-Year Students" },
+      { property: "og:title", content: "Pathway — AI Career Advisor" },
       {
         property: "og:description",
         content:
@@ -57,7 +57,7 @@ function Landing() {
               Figure out where your degree can <span className="lp-grad">actually take you</span>
             </h1>
             <p className="lp-lead">
-              Pathway turns your skills, studies and interests into clear career directions — then
+              Pathway turns your skills, studies and interests into clear career directions,then
               helps you write the CV and letter that get you there.
             </p>
             <Link to="/auth" className="lp-cta">
@@ -70,7 +70,7 @@ function Landing() {
             <span className="lp-spark lp-spark-gold" aria-hidden="true">✦</span>
             <span className="lp-spark lp-spark-blue" aria-hidden="true">✦</span>
             <div className="lp-photo">
-              <img src="https://images.unsplash.com/photo-1655720357872-ce227e4164ba?auto=format&fit=crop&w=1100&q=85" alt="Three young Black women students talking and working together with a laptop and notebooks" />
+              <img src="https://images.unsplash.com/photo-1655720357872-ce227e4164ba?auto=format&fit=crop&w=1100&q=85" alt="Three young Black women talking and working together with a laptop and notebooks" />
             </div>
             <div className="lp-float lp-float-a">
               <span className="lp-float-icon lp-float-icon-lav"><Compass className="size-[19px]" /></span>
