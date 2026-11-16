@@ -1,6 +1,6 @@
 # Pathway — AI Career Advisor
 
-A web app for final-year students: AI career recommendations, CV feedback, cover-letter drafting and career tips.
+A progressive web app for final-year students: AI career recommendations, CV feedback, cover-letter drafting, goal setter, career companion and career tips.
 
 ## Stack
 
