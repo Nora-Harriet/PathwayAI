@@ -117,10 +117,10 @@ function Landing() {
         </aside>
       </main>
 
-      <footer className="lp-wrap lp-footer">
+     <footer className="lp-wrap lp-footer">
         <Link to="/" className="lp-brand lp-brand-sm" aria-label="Pathway home"><Mark size="sm" /><span>Pathway</span></Link>
         <p>Find your direction. Build what comes next.</p>
-        <Link to="/auth" className="lp-footer-link">Sign in</Link>
+        <a href="mailto:contact.pathway@gmail.com" className="lp-footer-link">Contact us</a>
       </footer>
     </div>
   );
