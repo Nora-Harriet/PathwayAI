@@ -26,7 +26,7 @@ export const Route = createFileRoute("/")({
 
 const FEATURES = [
   { icon: Compass, title: "Career Advisor", tone: "lav", body: "Share your skills, studies and interests. Get career paths that fit, with the exact skills to build next." },
-  { icon: FileText, title: "CV & Letters", tone: "mint", body: "Paste a CV section for specific, encouraging feedback — or draft a motivation letter in one go." },
+  { icon: FileText, title: "CV & Letters", tone: "mint", body: "Paste a CV section for specific, encouraging feedback or draft a motivation letter in one go." },
   { icon: GraduationCap, title: "Career Tips", tone: "gold", body: "LinkedIn habits, job-search routines and a short intro to the Big Five personality traits." },
   { icon: Target, title: "Goal Setter", tone: "blue", body: "Turn your ambitions into achievable SMART goals. Break them into actionable steps, set deadlines and track your progress as you work towards success." },
   { icon: HeartPulse, title: "Nuri", tone: "rose", body: "A supportive space to talk through stress, school, work and life. Reflect on your feelings, explore your goals and find manageable next steps." },

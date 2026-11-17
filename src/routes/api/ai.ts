@@ -8,7 +8,9 @@ import {
   NEXT_STEP_SYSTEM_PROMPT,
 } from "@/lib/prompts";
 
-const MODEL = "gemini-3.6-flash";
+// Tried in order on Groq; if one is busy, slow or rate-limited, the next is used.
+const MODELS = ["openai/gpt-oss-120b", "openai/gpt-oss-20b"];
+const TIMEOUT_MS = 20000;
 
 type Kind = "advisor" | "cv" | "letter" | "goal" | "nextStep";
 
@@ -72,9 +74,9 @@ export const Route = createFileRoute("/api/ai")({
   server: {
     handlers: {
       POST: async ({ request }) => {
-        const apiKey = process.env["GEMINI_API_KEY"];
+        const apiKey = process.env["GROQ_API_KEY"];
         if (!apiKey) {
-          return Response.json({ error: "Gemini API key is not configured." }, { status: 500 });
+          return Response.json({ error: "The AI is not configured." }, { status: 500 });
         }
 
         const body = (await request.json()) as Body;
@@ -86,38 +88,41 @@ export const Route = createFileRoute("/api/ai")({
           return Response.json({ error: "Please add a bit more detail." }, { status: 400 });
         }
 
-        const res = await fetch(
-          `https://generativelanguage.googleapis.com/v1beta/models/${MODEL}:generateContent`,
-          {
-            method: "POST",
-            headers: { "Content-Type": "application/json", "x-goog-api-key": apiKey },
-            body: JSON.stringify({
-              systemInstruction: { parts: [{ text: system }] },
-              contents: [{ role: "user", parts: [{ text: user }] }],
-            }),
-          },
+        for (const model of MODELS) {
+          try {
+            const res = await fetch("https://api.groq.com/openai/v1/chat/completions", {
+              method: "POST",
+              headers: { "Content-Type": "application/json", Authorization: `Bearer ${apiKey}` },
+              signal: AbortSignal.timeout(TIMEOUT_MS),
+              body: JSON.stringify({
+                model,
+                reasoning_effort: "low",
+                include_reasoning: false,
+                temperature: 0.7,
+                max_completion_tokens: 2048,
+                messages: [
+                  { role: "system", content: system },
+                  { role: "user", content: user },
+                ],
+              }),
+            });
+            if (!res.ok) {
+              console.error("Groq error", model, res.status);
+              continue;
+            }
+            const data = (await res.json()) as {
+              choices?: Array<{ message?: { content?: string } }>;
+            };
+            const text = data.choices?.[0]?.message?.content?.trim();
+            if (text) return Response.json({ text });
+          } catch {
+            console.error("Groq request failed", model);
+          }
+        }
+        return Response.json(
+          { error: "The AI is unavailable right now. Please try again." },
+          { status: 502 },
         );
-
-        if (!res.ok) {
-          const detail = await res.text();
-          console.error("Gemini error", res.status, detail);
-          return Response.json(
-            { error: "The AI is unavailable right now. Please try again." },
-            { status: 502 },
-          );
-        }
-
-        const data = (await res.json()) as {
-          candidates?: Array<{ content?: { parts?: Array<{ text?: string }> } }>;
-        };
-        const text = data.candidates?.[0]?.content?.parts
-          ?.map((p) => p.text ?? "")
-          .join("")
-          .trim();
-        if (!text) {
-          return Response.json({ error: "The AI returned an empty response." }, { status: 502 });
-        }
-        return Response.json({ text });
       },
     },
   },
