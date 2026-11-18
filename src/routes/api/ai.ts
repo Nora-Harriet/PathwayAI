@@ -64,10 +64,16 @@ function buildPrompt(body: Body): { system: string; user: string } {
   if (body.kind === "cv") {
     return { system: CV_SYSTEM_PROMPT, user: String(i["cvText"] ?? "") };
   }
+    const jobDesc = String(i["jobDescription"] || i["jobTitle"] || "");
+  const hook = String(i["companyHook"] || i["organization"] || "");
+  const summary = String(i["experienceSummary"] || i["strength"] || "");
+  const name = i["fullName"] ? `\nApplicant Name: ${i["fullName"]}` : "";
+
   return {
     system: LETTER_SYSTEM_PROMPT,
-    user: `Job title: ${i["jobTitle"]}\nOrganization: ${i["organization"]}\nKey strength or achievement: ${i["strength"]}`,
+    user: `Job Description & Requirements:\n${jobDesc}\n\nWhy This Company / Motivation Hook:\n${hook}\n\nApplicant Resume, Skills & Achievements:\n${summary}${name}`,
   };
+
 }
 
 export const Route = createFileRoute("/api/ai")({

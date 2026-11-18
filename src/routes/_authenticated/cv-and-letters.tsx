@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Copy, FileText, Loader2, PenLine, Upload } from "lucide-react";
 import { toast } from "sonner";
 
@@ -9,13 +9,11 @@ import { extractTextFromFile } from "@/lib/documents";
 import { DownloadButtons } from "@/components/DownloadButtons";
 import { PageHeader } from "@/components/PageHeader";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
-
-export const Route = createFileRoute("/_autenticated/cv-and-letters")({
+export const Route = createFileRoute("/_authenticated/cv-and-letters")({
   head: () => ({
     meta: [
       { title: "CV & Letters — Pathway" },
@@ -42,9 +40,9 @@ function CvAndLetters() {
   const [uploading, setUploading] = useState(false);
   const [cvText, setCvText] = useState("");
   const [feedback, setFeedback] = useState<string | null>(null);
-  const [jobTitle, setJobTitle] = useState("");
-  const [organization, setOrganization] = useState("");
-  const [strength, setStrength] = useState("");
+  const [jobDescription, setJobDescription] = useState("");
+  const [companyHook, setCompanyHook] = useState("");
+  const [experienceSummary, setExperienceSummary] = useState("");
   const [letter, setLetter] = useState<string | null>(null);
 
   async function handleFile(file: File) {
@@ -62,7 +60,6 @@ function CvAndLetters() {
     }
   }
 
-
   const reviewMutation = useMutation({
     mutationFn: () => reviewCv(cvText),
     onSuccess: (data) => {
@@ -73,8 +70,36 @@ function CvAndLetters() {
       toast.error(error instanceof Error ? error.message : "Could not review your CV."),
   });
 
+  useEffect(() => {
+    if (!dashboard?.profile) return;
+    const p = dashboard.profile;
+    const parts: string[] = [];
+    if (p.education) parts.push(`Education: ${p.education}`);
+    if (p.skills) parts.push(`Skills: ${p.skills}`);
+    if (p.achievements && p.achievements.length > 0) {
+      parts.push(`Key Achievements:\n- ${p.achievements.join("\n- ")}`);
+    } else if (p.highlights) {
+      parts.push(`Highlights: ${p.highlights}`);
+    } else if (p.bio) {
+      parts.push(`Bio: ${p.bio}`);
+    }
+    const autoSummary = parts.join("\n\n");
+    if (autoSummary) {
+      setExperienceSummary((prev) => prev || autoSummary);
+    }
+  }, [dashboard]);
+
   const letterMutation = useMutation({
-    mutationFn: () => draftLetter({ jobTitle, organization, strength }),
+    mutationFn: () =>
+      draftLetter({
+        jobDescription,
+        companyHook,
+        experienceSummary,
+        fullName: dashboard?.profile?.fullName || "",
+        jobTitle: jobDescription.slice(0, 60),
+        organization: companyHook.slice(0, 60),
+        strength: experienceSummary.slice(0, 100),
+      }),
     onSuccess: (data) => {
       setLetter(data);
       queryClient.invalidateQueries({ queryKey: ["dashboard"] });
@@ -211,39 +236,52 @@ function CvAndLetters() {
                 }}
               >
                 <div className="space-y-1.5">
-                  <Label htmlFor="jobTitle">Job title</Label>
-                  <Input
-                    id="jobTitle"
-                    required
-                    maxLength={120}
-                    value={jobTitle}
-                    onChange={(e) => setJobTitle(e.target.value)}
-                    placeholder="Programme Assistant"
-                  />
-                </div>
-                <div className="space-y-1.5">
-                  <Label htmlFor="organization">Organisation</Label>
-                  <Input
-                    id="organization"
-                    required
-                    maxLength={120}
-                    value={organization}
-                    onChange={(e) => setOrganization(e.target.value)}
-                    placeholder="Plan International Ghana"
-                  />
-                </div>
-                <div className="space-y-1.5">
-                  <Label htmlFor="strength">One strength or achievement</Label>
+                  <div className="flex items-center justify-between">
+                    <Label htmlFor="jobDescription">Job description & requirements</Label>
+                    <span className="text-xs text-muted-foreground font-normal">ATS matching</span>
+                  </div>
                   <Textarea
-                    id="strength"
+                    id="jobDescription"
                     required
-                    rows={4}
-                    maxLength={600}
-                    value={strength}
-                    onChange={(e) => setStrength(e.target.value)}
-                    placeholder="Led a 6-person student team that ran a literacy drive for 120 pupils"
+                    rows={5}
+                    maxLength={3000}
+                    value={jobDescription}
+                    onChange={(e) => setJobDescription(e.target.value)}
+                    placeholder="Paste the job ad, title, key responsibilities, and requirements here…"
                   />
                 </div>
+
+                <div className="space-y-1.5">
+                  <Label htmlFor="companyHook">Why this company / What excites you</Label>
+                  <Textarea
+                    id="companyHook"
+                    required
+                    rows={3}
+                    maxLength={600}
+                    value={companyHook}
+                    onChange={(e) => setCompanyHook(e.target.value)}
+                    placeholder="e.g. Plan International Ghana — I admire their community-led literacy drive in rural districts and their youth empowerment focus…"
+                  />
+                </div>
+
+                <div className="space-y-1.5">
+                  <div className="flex items-center justify-between">
+                    <Label htmlFor="experienceSummary">Your resume / Experience & achievements</Label>
+                    {dashboard?.profile ? (
+                      <span className="text-xs text-primary font-medium">Auto-loaded from Profile</span>
+                    ) : null}
+                  </div>
+                  <Textarea
+                    id="experienceSummary"
+                    required
+                    rows={5}
+                    maxLength={2500}
+                    value={experienceSummary}
+                    onChange={(e) => setExperienceSummary(e.target.value)}
+                    placeholder="Paste your top skills, degree, background, or 1–2 key achievements here…"
+                  />
+                </div>
+
                 <Button type="submit" className="w-full" disabled={letterMutation.isPending}>
                   {letterMutation.isPending ? (
                     <>

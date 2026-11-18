@@ -173,9 +173,13 @@ export async function reviewCv(cvText: string): Promise<string> {
 }
 
 export async function draftLetter(input: {
-  jobTitle: string;
-  organization: string;
-  strength: string;
+  jobTitle?: string;
+  organization?: string;
+  strength?: string;
+  jobDescription?: string;
+  companyHook?: string;
+  experienceSummary?: string;
+  fullName?: string;
 }): Promise<string> {
   const letter = await askAI("letter", input);
   await addDoc(collection(db, "users", uid(), "letters"), {
